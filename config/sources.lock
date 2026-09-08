@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "name": "MathModel-Skill",
+      "repo": "https://github.com/yushui2022/MathModel-Skill.git",
+      "branch": "standard",
+      "commit": "0cc261d90d21e4ed540b02b0c71018cdcd47af58",
+      "skills_path": "packages/codex/.agents/skills",
+      "skills": [
+        "authoritative-data-harvester",
+        "context-memory-keeper",
+        "data-cleaning-and-visualization",
+        "model-code-and-result-generator",
+        "modeling-paper-rubric-and-model-selector",
+        "paper-formal-writer",
+        "paper-micro-unit-generator",
+        "paper-workflow-orchestrator",
+        "problem-doc-model-selector",
+        "quality-assurance-auditor"
+      ],
+      "license": "MIT"
+    },
+    {
+      "name": "sci-box",
+      "repo": "https://github.com/jihe520/sci-box.git",
+      "branch": "main",
+      "commit": "9687d2a52037e92bf68a781b9b1e061ca03c8125",
+      "skills_path": "skills",
+      "skills": [
+        "scibox-diagram",
+        "scibox-figure"
+      ],
+      "license": "NOASSERTION"
+    },
+    {
+      "name": "PaperSpine",
+      "repo": "https://github.com/WUBING2023/PaperSpine.git",
+      "branch": "main",
+      "commit": "1fe46f0e76aab800db381b0a0c392cebe14d86bf",
+      "skills_path": "dist/codex/skills/paper-spine",
+      "skills": [
+        "paper-spine"
+      ],
+      "license": "MIT"
+    }
+  ]
+}

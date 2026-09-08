@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Toolchain management only: never vendor complete third-party repositories.
+/MathModel-Skill/
+/sci-box/
+/PaperSpine/
+/.mathmodel-stack/
+/.test-workspaces/
