@@ -14,11 +14,13 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
-OWN = ('contest-project-bootstrap', 'modeling-reviewer', 'result-auditor',
-       'paper-handoff', 'final-paper-reviewer', 'exemplar-paper-retriever')
-NAMES = ('MathModel-Skill', 'sci-box', 'PaperSpine')
+OWN = ('contest-project-bootstrap', 'modeling-reviewer', 'exemplar-paper-retriever',
+       'data-contract-auditor', 'result-auditor', 'verified-number-registry',
+       'structured-optimization', 'repo-paper-auditor', 'question-completion-gate',
+       'paper-handoff', 'gmcm-final-reviewer')
+NAMES = ('MathModel-Skill', 'sci-box', 'PaperSpine', 'scientific-agent-skills')
 LAYOUT = ('data/raw', 'data/processed', 'src', 'results', 'figures', 'notes',
-          'paper', 'materials', 'project', 'problem_files', '.agents/skills')
+          'reports', 'paper', 'materials', 'project', 'problem_files', '.agents/skills')
 
 
 def say(status, message):
@@ -97,6 +99,10 @@ class Stack:
                     re.fullmatch(r'https://github.com/[\w.-]+/[\w.-]+\.git', source['repo']),
                     'Sources must use official GitHub HTTPS URLs')
             run('git', 'check-ref-format', '--branch', source['branch'])
+            require(source.get('license') and source.get('purpose') and source.get('install_mode'),
+                    f'Incomplete provenance metadata: {source["name"]}')
+            require(not set(source.get('optional_skills', [])) & set(source['skills']),
+                    f'Enabled/optional skill overlap: {source["name"]}')
 
     def repo(self, source):
         return self.cache / source['name']
@@ -117,11 +123,18 @@ class Stack:
     def source_skills(self, source):
         base = safe_child(self.repo(source), source['skills_path'])
         require(base.is_dir(), f'Upstream layout changed: {base}')
-        paths = [base] if (base / 'SKILL.md').is_file() else sorted(
-            p for p in base.iterdir() if p.is_dir() and (p / 'SKILL.md').is_file())
         expected = source['skills']
+        if (base / 'SKILL.md').is_file():
+            paths = [base]
+        elif source.get('allow_extra_skills'):
+            paths = [safe_child(base, name) for name in sorted(expected)]
+        else:
+            paths = sorted(p for p in base.iterdir()
+                           if p.is_dir() and (p / 'SKILL.md').is_file())
         require([p.name for p in paths] == sorted(expected), f'Unexpected skills in {base}')
-        for path in paths:
+        checked = paths + [safe_child(base, name) for name in source.get('optional_skills', [])]
+        for path in checked:
+            require((path / 'SKILL.md').is_file(), f'Missing selected skill: {path}')
             require(not any(p.is_symlink() for p in path.rglob('*')),
                     f'Upstream skill contains symlinks; review before installing: {path}')
         return paths
@@ -259,6 +272,8 @@ class Stack:
             self.check_repo(source)
         paths = self.source_skills(self.sources[0])
         for relative in (*LAYOUT, 'AGENTS.md', 'README.md', 'project/project-layout.md',
+                         'materials/gmcm.md', 'materials/gmcm_year_override.md',
+                         'results/paper_metrics.yaml',
                          'notes/toolchain_versions.md', '.agents/mathmodel-source.json',
                          '.agents/third-party/MathModel-Skill/LICENSE'):
             safe_child(project, relative)
@@ -297,6 +312,11 @@ class Stack:
         for name, target in [('AGENTS.md', 'AGENTS.md'), ('README.md', 'README.md'),
                              ('project-layout.md', 'project/project-layout.md')]:
             write_new(project / target, (ROOT / 'templates' / name).read_text())
+        write_new(project / 'materials/gmcm.md', (ROOT / 'rubrics/gmcm.md').read_text())
+        write_new(project / 'materials/gmcm_year_override.md',
+                  (ROOT / 'rubrics/gmcm_year_override.md').read_text())
+        write_new(project / 'results/paper_metrics.yaml',
+                  (ROOT / 'templates/paper_metrics.yaml').read_text())
         own_commit = git(ROOT, 'rev-parse', 'HEAD')
         dirty = bool(git(ROOT, 'status', '--porcelain'))
         content = '# Toolchain versions\n\nInitialized (UTC): ' + dt.datetime.now(dt.timezone.utc).isoformat() + '\n\n'

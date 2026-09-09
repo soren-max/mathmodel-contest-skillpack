@@ -19,7 +19,9 @@
         "problem-doc-model-selector",
         "quality-assurance-auditor"
       ],
-      "license": "MIT"
+      "license": "MIT",
+      "purpose": "Project-level problem decomposition, modeling, computation, evidence, and paper workflow",
+      "install_mode": "cache-and-project-copy"
     },
     {
       "name": "sci-box",
@@ -31,7 +33,9 @@
         "scibox-diagram",
         "scibox-figure"
       ],
-      "license": "NOASSERTION"
+      "license": "NOASSERTION",
+      "purpose": "Scientific figures and editable diagrams",
+      "install_mode": "cache-and-selected-symlink"
     },
     {
       "name": "PaperSpine",
@@ -42,7 +46,30 @@
       "skills": [
         "paper-spine"
       ],
-      "license": "MIT"
+      "license": "MIT",
+      "purpose": "Optional paper restructuring and integration",
+      "install_mode": "cache-and-selected-symlink"
+    },
+    {
+      "name": "scientific-agent-skills",
+      "repo": "https://github.com/K-Dense-AI/scientific-agent-skills.git",
+      "branch": "main",
+      "commit": "9cf7d9aea7d84754db4c167ab04b299d33c444bc",
+      "skills_path": "skills",
+      "skills": [
+        "scientific-critical-thinking",
+        "statistical-analysis",
+        "statsmodels",
+        "uncertainty-and-units"
+      ],
+      "optional_skills": [
+        "shap",
+        "simpy"
+      ],
+      "allow_extra_skills": true,
+      "license": "MIT",
+      "purpose": "Selected atomic scientific reasoning, statistics, interpretable baselines, and unit/uncertainty checks; SHAP and SimPy recorded but not enabled by default",
+      "install_mode": "cache-and-selected-symlink"
     }
   ]
 }

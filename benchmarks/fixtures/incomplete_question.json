@@ -1,0 +1,17 @@
+{
+  "case": "incomplete question",
+  "kind": "completion",
+  "artifacts": {
+    "problem_understood": true,
+    "mathematical_formulation": true,
+    "code_exists": true,
+    "code_ran": true,
+    "numerical_result": true,
+    "validation": false,
+    "figure_or_table": false,
+    "interpretation": true,
+    "limitations": false,
+    "paper_handoff": false
+  },
+  "expected": ["PARTIAL"]
+}

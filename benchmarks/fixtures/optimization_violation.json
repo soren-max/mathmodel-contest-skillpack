@@ -1,0 +1,8 @@
+{
+  "case": "optimization hard-constraint violation",
+  "kind": "optimization",
+  "hard_constraints": [
+    {"name": "capacity", "lhs": 11.0, "operator": "<=", "rhs": 10.0, "tolerance": 1e-09}
+  ],
+  "expected": ["BLOCKED", "CRITICAL"]
+}

@@ -30,7 +30,7 @@ class StackTests(unittest.TestCase):
         self.base = Path(self.tmp.name)
         self.pack = self.base / 'pack with spaces'
         self.pack.mkdir()
-        for name in ('config', 'scripts', 'skills', 'templates', 'bin'):
+        for name in ('config', 'scripts', 'skills', 'templates', 'bin', 'rubrics', 'schemas'):
             shutil.copytree(ROOT / name, self.pack / name, ignore=shutil.ignore_patterns('__pycache__'))
         for name in ('install.sh', 'update.sh', 'verify.sh'):
             shutil.copy2(ROOT / name, self.pack / name)
@@ -38,15 +38,16 @@ class StackTests(unittest.TestCase):
         self.env.update(MM_STACK_HOME=str(self.base / 'cache'),
                         MM_CODEX_HOME=str(self.base / 'codex'),
                         MM_BIN_DIR=str(self.base / 'bin'),
-                        GIT_TERMINAL_PROMPT='0', GIT_CONFIG_COUNT='4')
+                        GIT_TERMINAL_PROMPT='0')
         self.env['PATH'] = str(self.base / 'bin') + os.pathsep + self.env['PATH']
         self.lock = json.loads((self.pack / 'config/sources.lock').read_text())
+        self.env['GIT_CONFIG_COUNT'] = str(len(self.lock['sources']) + 1)
         self.remotes = []
         for i, source in enumerate(self.lock['sources']):
             repo = self.base / ('upstream-' + source['name'])
             run('git', 'init', '-q', '--initial-branch=' + source['branch'], repo)
             skillbase = repo / source['skills_path']
-            for name in source['skills']:
+            for name in source['skills'] + source.get('optional_skills', []):
                 folder = skillbase if skillbase.name == name else skillbase / name
                 folder.mkdir(parents=True)
                 (folder / 'SKILL.md').write_text(f'---\nname: {name}\ndescription: Test fixture.\n---\nFixture v1\n')
@@ -55,8 +56,9 @@ class StackTests(unittest.TestCase):
             self.remotes.append(repo)
             self.env[f'GIT_CONFIG_KEY_{i}'] = f'url.{repo.as_uri()}.insteadOf'
             self.env[f'GIT_CONFIG_VALUE_{i}'] = source['repo']
-        self.env['GIT_CONFIG_KEY_3'] = 'protocol.file.allow'
-        self.env['GIT_CONFIG_VALUE_3'] = 'always'
+        protocol_index = len(self.lock['sources'])
+        self.env[f'GIT_CONFIG_KEY_{protocol_index}'] = 'protocol.file.allow'
+        self.env[f'GIT_CONFIG_VALUE_{protocol_index}'] = 'always'
         (self.pack / 'config/sources.lock').write_text(json.dumps(self.lock))
         run('git', 'init', '-q', self.pack)
         commit(self.pack, 'fixture pack')
@@ -85,6 +87,10 @@ class StackTests(unittest.TestCase):
         self.assertEqual((project / 'README.md').read_text(), 'Keep my README\n')
         self.assertEqual(notes, (project / 'notes/toolchain_versions.md').read_bytes())
         self.assertEqual(len(list((project / '.agents/skills').glob('*/SKILL.md'))), 10)
+        self.assertTrue((project / 'materials/gmcm.md').is_file())
+        self.assertIn('verified: false', (project / 'materials/gmcm_year_override.md').read_text())
+        self.assertEqual(json.loads((project / 'results/paper_metrics.yaml').read_text()),
+                         {'schema_version': 1, 'metrics': []})
         self.assertTrue((project / '.agents/third-party/MathModel-Skill/LICENSE').is_file())
         for name in self.lock['sources'][0]['skills']:
             self.assertFalse((self.base / 'codex/skills' / name).exists())

@@ -1,0 +1,9 @@
+{
+  "case": "numeric conflict",
+  "kind": "numeric_registry",
+  "metrics": [
+    {"metric_id": "q2.peak_count", "value": 268, "unit": "peaks", "definition": "accepted peaks in final window"},
+    {"metric_id": "q2.peak_count", "value": 312, "unit": "peaks", "definition": "all detected peaks before filtering"}
+  ],
+  "expected": ["CONFLICT", "DEFINITION_RISK"]
+}

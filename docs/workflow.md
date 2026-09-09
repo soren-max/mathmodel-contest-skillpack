@@ -1,32 +1,42 @@
-# 从开赛到交付
+# GMCM 从开赛到交付
 
-赛前 clone SkillPack、运行 install/verify，并在新临时项目演练一次。仅赛前按需 update，审查变更后提交锁文件。比赛中冻结所有全局工具和计算依赖；先完成、再验证、再改进。
+赛前 clone SkillPack、运行 install/verify，并在临时项目演练。仅赛前主动更新；比赛中冻结工具链。总原则是 Problem first、Evidence first、Complete first → Validate → Improve。
 
-| 阶段 | 主责与工具 | 交付 |
-| --- | --- | --- |
-| 启动 | J/F/L，contest-project-bootstrap | 官方材料、规则、分工、目录、环境与接口 |
-| 历史结构检索（可选） | J/F，exemplar-paper-retriever | 最多三篇结构案例、可复用模式、不可照搬项与当前证据缺口 |
-| 逐问路线 | J 主责，F/L 交叉审查，modeling-reviewer | 数学表述、baseline、候选路线、MVP、升级条件 |
-| 数据与实现 | F/J，MathModel Standard | 只读原始数据、处理脚本、真实实验、可追溯结果 |
-| 验证 | F/J，result-auditor | 泄漏/指标/约束/稳健性/数值一致性审计 |
-| 绘图 | F，scibox-figure / scibox-diagram | 从真实数据生成的图、图注和解释 |
-| 逐问交接 | J/F → L，paper-handoff | notes/handoff_qN.md 与明确允许写入的数值 |
-| 论文整合 | L 主责，全员 review，paper-spine | 数学表达、章节递进、证据与主张对应 |
-| 最终审查 | 全员，final-paper-reviewer | 优先修 Critical，其次 Major，最终人工复核 |
+固定唯一流程：
 
-MathModel Standard 提供项目中的分解、选择、数据、代码、证据与写作工作流。本仓库六个 Skill 补充历史结构检索、团队审查与交接接口，不替换其原文。先用 `/skills` 确认实际发现的名称，再按当前任务调用；不同时启动多个负责整篇论文的入口。
+```text
+contest-project-bootstrap
+→ data-contract-auditor
+→ modeling-reviewer
+→ optional exemplar-paper-retriever
+→ model/code
+→ result-auditor
+→ verified-number-registry
+→ question-completion-gate
+→ repo-paper-auditor
+→ paper-handoff
+→ paper
+→ PaperSpine if useful
+→ gmcm-final-reviewer
+```
+
+MathModel Standard 继续提供项目级原子工作能力，sci-box 负责图，PaperSpine 只在论文整合确有收益时使用。本仓库不引入另一套数学建模 orchestrator。比赛推进单位是 `each question → MVP_CLOSED → next question → later improvement`。
 
 常用起始提示：
 
 ```text
-使用 $contest-project-bootstrap 检查当前比赛项目，列出材料缺口和 J/F/L 接口，不开始复杂建模。
-使用 $exemplar-paper-retriever 按数学结构检索最多三篇案例，列出可借鉴结构、不可复制内容和当前所需证据。
-使用 $modeling-reviewer 审查第一问，比较至少两条路线并给出 baseline 和 MVP。
-使用 $result-auditor 检查第一问的真实结果与图表，标明尚未验证的部分。
-使用 $paper-handoff 将第一问交给 L，逐个标注允许写入论文的数值及来源。
-使用 $final-paper-reviewer 对最终稿逐问审查，优先报告 Critical。
+使用 $contest-project-bootstrap 检查当前比赛项目、官方材料和 J/F/L 接口。
+使用 $data-contract-auditor 在不修改 data/raw 的前提下检查原始与处理数据契约。
+使用 $modeling-reviewer 审查第一问，比较候选路线并给出 baseline 和 MVP。
+必要时使用 $exemplar-paper-retriever 按数学结构检索最多三篇案例。
+使用 $result-auditor 检查真实运行、泄漏、指标、约束与验证。
+使用 $verified-number-registry 批准可进入论文的核心数字。
+使用 $question-completion-gate 判断该问是否已达到 MVP_CLOSED。
+使用 $repo-paper-auditor 建立题目到论文 claim 的 Evidence Matrix。
+使用 $paper-handoff 将已审计的问题交给 L。
+使用 $gmcm-final-reviewer 从数学、实验与竞赛三个视角审查终稿。
 ```
 
-原始数据 → 处理代码 → 实验配置/种子 → 结果文件 → 图表 → handoff → 正文/摘要，每一环必须有可定位来源。BLOCKED 的主结论不可写成正式结果；负 R² 和失败实验保留并解释。L 不从脚本猜数字，J/F 不只交图而不交数学表达与验证。
+原始数据 → 处理代码 → 实验配置/种子 → 结果 → registry → 图表 → Evidence Matrix → handoff → 正文/摘要，每一环必须可定位。BLOCKED 主结论不可写成正式结果；负 R²、弱关系和失败实验保留并解释。
 
-当上游生成目录与模板不同，在 `project/project-layout.md` 记录实际映射和唯一提交稿；不随意修改第三方技能去强制统一路径。若需改变流程，在本项目的 AGENTS/notes 中明确约定。
+上游目录与模板不同时，在 `project/project-layout.md` 记录实际映射和唯一提交稿。比赛开始后按 [competition-freeze.md](competition-freeze.md) 冻结流程。

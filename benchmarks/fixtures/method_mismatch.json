@@ -1,0 +1,7 @@
+{
+  "case": "paper/code method mismatch",
+  "kind": "method",
+  "paper_method": "5-fold cross-validation",
+  "code_method": "TimeSeriesSplit(n_splits=3)",
+  "expected": ["METHOD_MISMATCH", "CRITICAL"]
+}
