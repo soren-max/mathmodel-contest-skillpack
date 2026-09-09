@@ -7,6 +7,8 @@ description: Review a near-final mathematical modeling contest paper from a judg
 
 读取官方题目、当届规则、整合稿与最终渲染文件、各问 handoff 和结果审计。以数学建模竞赛评委视角检查，不凭语言流畅度代替证据质量。
 
+若仓库包含 `../../corpus/derived/`，同时读取 `abstract_patterns.md`、`validation_patterns.md`、`figure_patterns.md` 与 `reviewer_checklist.md` 作为证据完整性检查框架。它们提供检查维度而不是历史模型标准；不得要求当前论文复刻案例模型。相对路径不存在时记录 corpus 不可用并继续现有审查。
+
 逐项给出“符合 / 问题 / 未验证 / 不适用”，记录页码、章节或文件位置：
 
 1. 是否逐问回答题目与交付要求。

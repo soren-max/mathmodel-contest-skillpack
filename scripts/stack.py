@@ -15,7 +15,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 OWN = ('contest-project-bootstrap', 'modeling-reviewer', 'result-auditor',
-       'paper-handoff', 'final-paper-reviewer')
+       'paper-handoff', 'final-paper-reviewer', 'exemplar-paper-retriever')
 NAMES = ('MathModel-Skill', 'sci-box', 'PaperSpine')
 LAYOUT = ('data/raw', 'data/processed', 'src', 'results', 'figures', 'notes',
           'paper', 'materials', 'project', 'problem_files', '.agents/skills')

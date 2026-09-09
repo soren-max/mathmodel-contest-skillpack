@@ -22,4 +22,10 @@ description: Review a mathematical modeling contest solution route before substa
 
 给出推荐路线、选择理由、baseline、验证计划和当前未证实假设。不得机械套用“预测→XGBoost、评价→TOPSIS、优化→GA”，不得仅凭算法流行程度选择。若数据不支持复杂方案，先选能解释并验证的 MVP。
 
+## 可选 Historical Exemplar Check
+
+当当前路线需要结构参照或存在明显选择分歧时，可读取 `../../corpus/derived/core_corpus.md`、`model_selection_patterns.md` 与最多三张 `paper_cards/`，按数学对象、状态/决策、目标、约束和验证需求匹配历史案例。记录“为什么结构相似、可借鉴什么、不可复制什么”；不得按题号或应用名硬配。
+
+历史案例只产生候选结构，不能作为模型正确性的证据，不能覆盖当前题意、当前数据、当前约束和当前 baseline。若相对路径不存在，跳过该可选检查并记录 corpus 不可用，不臆造历史结论。
+
 普通合理实施选择可以直接推进；只有缺少的题意或输入会改变结论时才询问用户。审查并不自动授权超出当前任务的实验、环境修改或外部动作。
