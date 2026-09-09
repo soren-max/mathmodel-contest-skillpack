@@ -28,6 +28,8 @@ description: Retrieve up to three structurally similar GMCM exemplar paper cards
 - `Paper`: ID 与标题
 - `Why structurally similar`: 对齐数学对象、输入输出、状态/决策、目标/约束或验证，而非表面领域
 - `Reusable structure`: 可复用的拆题、数学结构、验证或图表证据
+- `Useful validation pattern`: 当前问题最值得借鉴的验证方式
+- `Useful paper pattern`: 可借鉴的章节、摘要或图表证据组织
 - `Do not copy`: 题目特定参数、算法、阈值、假设或未经验证做法
 - `Current evidence needed`: 当前题目采用前必须补的最小证据
 

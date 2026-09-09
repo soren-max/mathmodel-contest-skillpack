@@ -1,0 +1,7 @@
+{
+  "case": "causal overclaim",
+  "kind": "claim",
+  "evidence_type": "correlation",
+  "claim": "变量 X 导致 Y 增加",
+  "expected": ["CAUSALITY_RISK"]
+}

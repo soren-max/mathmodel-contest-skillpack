@@ -5,11 +5,12 @@
 | `data/raw/` | 只读原始数据，保留来源与哈希 |
 | `data/processed/` | 脚本生成的数据，保留处理规则 |
 | `src/` | 逐问代码、公共模块与执行入口 |
-| `results/` | 原始精度结果、指标、实验配置及运行日志 |
+| `results/` | 原始精度结果、`paper_metrics.yaml`、实验配置及运行日志 |
 | `figures/` | 由真实结果生成的论文图，保留绘图入口 |
 | `notes/` | 路线审查、结果审计、handoff、版本记录 |
+| `reports/` | data contract、问题闭环状态、Evidence Matrix 与 GMCM 终审 |
 | `paper/` | 论文整合稿与最终提交稿 |
-| `materials/` | 当届官方规则、模板、参考材料 |
+| `materials/` | GMCM rubric、已核实当届规则、模板、参考材料 |
 | `project/` | J/F/L 看板、接口约定、环境与复现命令 |
 | `problem_files/` | 官方赛题原件 |
 | `.agents/skills/` | 冻结的官方 MathModel Codex Standard 技能包 |

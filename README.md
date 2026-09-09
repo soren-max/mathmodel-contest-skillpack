@@ -1,19 +1,19 @@
 # MathModel Contest SkillPack
 
-Reusable Codex workflow for mathematical modeling competitions.
+**Version: GMCM-first v0.9**
 
-Supported:
+Current primary target:
 
-- CUMCM
-- China Postgraduate Mathematical Contest in Modeling / Huawei Cup
-- MCM / ICM
-- MathorCup
-- other modeling competitions
+- China Postgraduate Mathematical Contest in Modeling
+- GMCM / Huawei Cup / 中国研究生数学建模竞赛
+
+CUMCM、MCM、ICM 等以后适配；v0.9 不以通用性为目标。
 
 Goals: correct problem decomposition, justified model selection, reproducible computation,
-leakage-free validation, result consistency, paper-ready evidence, reviewer-oriented QA.
+leakage-free validation, structured optimization, evidence consistency, paper-ready outputs,
+and GMCM-oriented final review.
 
-这是工具链管理仓库：保存锁定版本、安装脚本、项目模板、优秀论文经验库和六个原创流程 Skill，**不镜像或 vendor 第三方完整源码**。第三方从官方 GitHub 克隆至用户缓存，版权归原作者。本工具不保证获奖；最终建模和论文必须人工复核。
+这是 GMCM-first 工具链仓库：保存锁定版本、项目模板、8 篇 Core Corpus 的原创提炼和 11 个边界清晰的流程 Skill，**不 vendor 第三方完整源码**。本工具不保证获奖；模型、代码、数值、引用和论文仍需三位 owner 人工审核。
 
 ## Quick Start
 
@@ -37,12 +37,12 @@ export PATH="$HOME/.local/bin:$PATH"
 创建新比赛：
 
 ```bash
-mm-init ~/projects/CUMCM-2027
-cd ~/projects/CUMCM-2027
+mm-init ~/projects/GMCM-2026
+cd ~/projects/GMCM-2026
 codex
 ```
 
-先使用 `$contest-project-bootstrap`，放入官方材料、确认 J/F/L 分工，再使用 `$modeling-reviewer`。完整流程见 [docs/workflow.md](docs/workflow.md)。
+先使用 `$contest-project-bootstrap`，放入官方材料并确认 J/F/L 分工，再执行唯一固定流程。完整顺序见 [docs/workflow.md](docs/workflow.md)。
 
 ## 安装边界
 
@@ -51,12 +51,13 @@ codex
 | MathModel Standard，10 Skills | `~/.local/share/mathmodel-stack/MathModel-Skill` | 仅由 mm-init 复制官方 Codex 包到 `<project>/.agents/skills/` |
 | scibox-figure、scibox-diagram | `~/.local/share/mathmodel-stack/sci-box` | `~/.codex/skills/` 下同名软链接 |
 | paper-spine | `~/.local/share/mathmodel-stack/PaperSpine` | `~/.codex/skills/paper-spine` 链接官方 `dist/codex/skills/paper-spine` |
-| 六个自定义 Skills | 本仓库 `skills/` | `~/.codex/skills/` 下同名软链接 |
+| 4 个 K-Dense 原子 Skills | `~/.local/share/mathmodel-stack/scientific-agent-skills` | 只链接 scientific-critical-thinking、statistical-analysis、statsmodels、uncertainty-and-units |
+| 11 个自定义 Skills | 本仓库 `skills/` | `~/.codex/skills/` 下同名软链接 |
 | mm-init | 本仓库 `bin/mm-init` | `~/.local/bin/mm-init` 软链接 |
 
 不要删除或移动安装后的本仓库和缓存，否则链接会失效。MathModel 不全局安装，不混装 Standard/Lite。检测到同名全局 MathModel 时会停止并提示人工处理。
 
-**Codex 路径兼容性：** 按本项目约定保留 `${CODEX_HOME:-~/.codex}/skills`。当前 [OpenAI 官方文档](https://developers.openai.com/codex/skills/) 列出的用户级发现目录为 `~/.agents/skills`，项目级为 `.agents/skills`，并支持目录软链接。不同版本对旧路径支持可能不同；安装后用 `/skills` 核对这 9 个全局 Skill。若当前版本不发现旧路径，可自行为这 9 个目录逐个添加 `~/.agents/skills/<name>` 软链接；先检查同名冲突，不要把整个 `.codex/skills` 再复制一遍。安装器会提示该兼容项，不修改 Codex settings，也不将“文件存在”当成实际路由已验证。
+**Codex 路径兼容性：** 按本项目约定保留 `${CODEX_HOME:-~/.codex}/skills`。当前 [OpenAI 官方文档](https://developers.openai.com/codex/skills/) 列出的用户级发现目录为 `~/.agents/skills`，项目级为 `.agents/skills`，并支持目录软链接。不同版本对旧路径支持可能不同；安装后用 `/skills` 核对 18 个全局 Skill。若当前版本不发现旧路径，可为这些目录逐个添加 `~/.agents/skills/<name>` 软链接；先检查同名冲突，不要复制整个技能目录。安装器会提示该兼容项，不修改 Codex settings。
 
 PaperSpine 官方安装器会写入多个宿主并替换已有目录，因此这里只链接其提交内已生成的 Codex 包，不执行全宿主安装，也不安装 `/paperspine` prompt；通过 `$paper-spine` 使用。许可证与具体路径见 [docs/third-party.md](docs/third-party.md)。
 
@@ -64,7 +65,7 @@ PaperSpine 官方安装器会写入多个宿主并替换已有目录，因此这
 
 ## 版本锁定与更新
 
-[config/sources.lock](config/sources.lock) 是 JSON，记录 repo、branch、完整 commit SHA、官方 Skill 路径和预期名称。普通安装只检出锁定 SHA；已有对象齐全时可离线重装，不跟随上游 HEAD。缓存有本地修改、来源不符、文件冲突或布局变化时停止，不覆盖用户文件。
+[config/sources.lock](config/sources.lock) 是 JSON，记录 repo、branch、完整 commit SHA、license、purpose、install_mode、Skill 路径和选择清单。普通安装只检出锁定 SHA；已有对象齐全时可离线重装，不跟随上游 HEAD。缓存有本地修改、来源不符、文件冲突或布局变化时停止，不覆盖用户文件。
 
 **赛前更新，比赛期间冻结版本。** 仅主动执行下面命令才查询新版本：
 
@@ -85,7 +86,7 @@ bash verify.sh
 
 - `install.sh`：依赖与冲突检查、官方 clone/fetch、固定提交 checkout、全局链接、mm-init 链接，最后执行与 `verify.sh` 相同的检查。
 - `verify.sh`：只读检查，输出 PASS / WARN / FAIL；FAIL 返回非零，PATH/CLI/发现路径提示为 WARN。不会修改环境。
-- `mm-init <directory>`：独立 Git 项目、11 组工作目录、10 个项目级 Skill、许可证、来源 JSON、模板和含 UTC 时间及四项 commit 的版本记录。已有父仓库内的子目录会被拒绝，避免误接入其他项目。
+- `mm-init <directory>`：独立 Git 项目、12 组工作目录、10 个项目级 MathModel Skill、GMCM rubric、年度规则空白覆盖、数字 registry、许可证、来源 JSON 和版本记录。已有父仓库内的子目录会被拒绝。
 - install/update/init 共享操作锁，避免并行修改缓存。Git 网络操作设有超时，失败后先检查保留下来的目录再重试。
 
 可选环境变量（同一安装的各命令保持一致）：
@@ -103,11 +104,16 @@ bash verify.sh
 | Skill | 交付物 |
 | --- | --- |
 | contest-project-bootstrap | 启动检查、材料缺口和团队安排 |
-| exemplar-paper-retriever | 按数学结构检索最多三篇历史案例及不可照搬项 |
 | modeling-reviewer | 每问数学路线、baseline、候选比较和 MVP |
+| exemplar-paper-retriever | 按数学结构检索最多三篇历史案例及不可照搬项 |
+| data-contract-auditor | raw/processed 数据契约与阻断项 |
 | result-auditor | PASS / PASS WITH LIMITATIONS / BLOCKED 的证据审计 |
+| verified-number-registry | `paper_metrics.yaml` 数字来源、定义、单位与批准状态 |
+| structured-optimization | 变量、目标、约束、可行域、solver 与最优后检查 |
+| repo-paper-auditor | 题目到 paper claim 的 Evidence Matrix |
+| question-completion-gate | BLOCKED / PARTIAL / MVP_CLOSED / CLOSED |
 | paper-handoff | J/F → L 的统一逐问数学/结果交接 |
-| final-paper-reviewer | Critical / Major / Minor 的终稿问题清单 |
+| gmcm-final-reviewer | 数学、实验、GMCM 三视角终审 |
 
 ## 文档与测试
 
@@ -115,6 +121,9 @@ bash verify.sh
 - [竞赛适配](docs/competitions.md)
 - [三人 Git 工作流](docs/git-workflow.md)
 - [来源与许可证](docs/third-party.md)
+- [可选依赖](docs/optional-dependencies.md)
+- [比赛冻结](docs/competition-freeze.md)
+- [GMCM rubric](rubrics/gmcm.md)
 
 ```bash
 bash -n install.sh

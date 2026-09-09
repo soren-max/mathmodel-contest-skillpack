@@ -22,6 +22,8 @@ Correctness first. Reproducibility. Mathematical interpretability. Paper-ready o
 
 所有论文数字必须来自真实运行结果，能追溯到脚本、输入版本和结果文件。禁止编造、手填假数据、不一致四舍五入、图表与正文数字冲突。原始精度保留在 `results/`；展示精度统一约定。示例数据必须标注为示例，不得进入论文证据。
 
+核心论文数字统一登记在 `results/paper_metrics.yaml`；摘要、正文、表格和图注只优先使用 `approved_for_paper: true` 的条目。存在值、定义或单位冲突时不得批准。
+
 同一事件或指标维护唯一口径；记录样本量、单位、分母、时间窗口和不确定性。结果变动时同步重生成图、表、正文引用和 handoff。
 
 ## Claims
@@ -32,23 +34,27 @@ Correctness first. Reproducibility. Mathematical interpretability. Paper-ready o
 
 每一问完成必须有 mathematical formulation、code、result、validation、figures、interpretation、limitations、paper handoff。确实不需要图时说明理由。
 
+每张正文图标记 Evidence Purpose：EDA / MECHANISM / MODEL / RESULT / VALIDATION / SENSITIVITY / OPTIMIZATION / DECISION。不能说明支持何种 claim 的图标记 `DECORATIVE_FIGURE`。
+
 J/F 在 `notes/handoff_qN.md` 交付经过审查的结果，L 不从代码中重新猜数。论文数字以 handoff 对应的真实产物为准。重大结果问题由 `result-auditor` 优先阻断；先解决证据问题，再润色。
 
 `paper/` 保存整合稿。若上游工作流要求 `paper_output/` 或 `paper_rewriting_output/`，保留它们作为生成目录，在 `project/project-layout.md` 记录映射，避免多个“最终版”。不得伪造引用。
 
 ## Competition strategy
 
-三天或有限时间比赛采用 **Complete first → Validate → Improve**。先逐问完成闭环，再验证，再升级最有价值的模型；不要为了复杂方法让后续问题未完成。赛前更新，比赛期间冻结 SkillPack、上游缓存和计算依赖版本。
+三天或有限时间比赛采用 **Complete first → Validate → Improve**。执行 `each question → MVP_CLOSED → next question → later improvement`；不要为了 Q1 完美让 Q3/Q4 未完成。赛前更新，比赛期间冻结 SkillPack、上游缓存和计算依赖版本。
 
 ## Team ownership
 
 | Owner | 默认职责 | 交付接口 |
 | --- | --- | --- |
-| J | modeling / coding / Agent / technical lead | 数学路线、模型实现、统一技术接口 |
+| J | modeling / core coding / Agent / technical QA / validation / coordination | 数学路线、模型实现、统一技术接口与交叉审查 |
 | F | data / experiments / visualization / verification | 数据处理、实验、图表、独立核验 |
 | L | paper / mathematical expression / integration / formatting | 数学表达、逐问整合、摘要和提交格式 |
 
 三个人都是 owner，不是一个核心两个辅助。赛前共同确认职责、逐问负责人、交叉审查人、截止时间；在 `project/` 保存任务看板。共享接口与结论，不并发覆盖同一文件。这里的角色分工不自动授权创建 AI 子代理或对外发送信息。
+
+J 不长期承担普通数据清洗、普通绘图或格式排版；F 与 L 对各自交付完整负责，并共同审查最终数字与结论。
 
 ## Git and submission
 

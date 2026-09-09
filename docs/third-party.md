@@ -9,6 +9,7 @@
 | [yushui2022/MathModel-Skill](https://github.com/yushui2022/MathModel-Skill) | 问题分解、模型选择、数据、代码、证据、建模论文工作流 | standard；缓存完整 repo，仅将 `packages/codex/.agents/skills/` 复制到比赛项目 | MIT；Copyright (c) 2026 yushui2022，保留 LICENSE |
 | [jihe520/sci-box](https://github.com/jihe520/sci-box) | scibox-figure、scibox-diagram | main；缓存完整 repo，全局链接 `skills/scibox-figure`、`skills/scibox-diagram` | 未发现仓库级 LICENSE，锁内记为 NOASSERTION；不能视为整个仓库采用 MIT |
 | [WUBING2023/PaperSpine](https://github.com/WUBING2023/PaperSpine) | 中后期重构、论证审查、面向评委的论文审核 | main；缓存完整 repo，全局链接 `dist/codex/skills/paper-spine` | MIT；Copyright (c) 2026 PaperSpine contributors，保留 LICENSE |
+| [K-Dense-AI/scientific-agent-skills](https://github.com/K-Dense-AI/scientific-agent-skills) | 通用科学批判、统计分析、statsmodels baseline、单位与不确定性 | main；缓存 repo，仅全局链接 4 个选定原子 Skill；SHAP/SimPy 只记录为按题可选 | MIT；Copyright (c) 2025 K-Dense Inc.，许可证保留在缓存根目录 |
 
 初始化时实查的版本如下（历史快照，更新后以锁文件为准）：
 
@@ -17,9 +18,12 @@
 | MathModel-Skill | `0cc261d90d21e4ed540b02b0c71018cdcd47af58` |
 | sci-box | `9687d2a52037e92bf68a781b9b1e061ca03c8125` |
 | PaperSpine | `1fe46f0e76aab800db381b0a0c392cebe14d86bf` |
+| scientific-agent-skills | `9cf7d9aea7d84754db4c167ab04b299d33c444bc` |
 
 sci-box 内 `skills/scibox-diagram/ATTRIBUTION.md` 与 `assets/icons/tabler/LICENSE` 为 Tabler 图标提供单独署名和 MIT 文本，版权归 Paweł Kuna。这不等同于 sci-box 全仓库许可。缓存和链接完整保留这些文件；如需再分发其脚本/模板，应先向上游确认授权范围。
 
 PaperSpine 的官方 `install.sh` 调用 `src/scripts/sync_local_installs.py`，默认安装多个宿主，且复制函数会删除/替换目标目录。本仓库需要避免覆盖与多宿主副作用，因此使用官方已生成的 Codex 布局，不执行其全宿主 installer、不手改 dist，也不冒充重新实现了 PaperSpine。
+
+K-Dense 仓库只启用 `skills/scientific-critical-thinking`、`skills/statistical-analysis`、`skills/statsmodels`、`skills/uncertainty-and-units`。不复制或链接其他 biomedical、chemistry、搜索、写作或 orchestrator Skill。`skills/shap` 与 `skills/simpy` 已核对但默认不安装；仅当当前题目确需模型归因或离散事件仿真时按项目显式启用。任何 Skill 中建议的 Python 包仍是可选项目依赖，不由 SkillPack 安装器执行。
 
 MathModel 项目副本另附 `.agents/third-party/MathModel-Skill/LICENSE` 与 `.agents/mathmodel-source.json`。全局链接依赖完整缓存，缓存中保留 Git 历史元数据、根许可证和内含素材署名。升级前复核许可证、布局及上游安装副作用，不默认未来提交与当前版本相同。

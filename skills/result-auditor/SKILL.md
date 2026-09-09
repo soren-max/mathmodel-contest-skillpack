@@ -17,6 +17,9 @@ description: Audit mathematical modeling results before paper handoff or when le
 - 同一指标在结果、图表、正文、摘要及 handoff 是否冲突；同一事件在不同脚本中的定义、窗口、样本集合是否冲突。
 - 原始精度与展示精度是否一致，图表能否由真实结果重生成；挑选随机种子或隐藏负 R²、失败实验等负结果。
 - 是否把弱统计关系写成强结论，把 association/correlation 或 prediction 写成 causality；有无因果识别设计。
+- 工程量的单位、维度、换算、有效数字、测量不确定性与数量级；需要时标记 `UNIT_CONFLICT / DIMENSION_RISK / ORDER_OF_MAGNITUDE_RISK / UNCERTAINTY_PROPAGATION_RISK`。
+
+可用时吸收 `scientific-critical-thinking` 的偏差、混杂、替代解释和证据强度检查；统计分析使用 `statistical-analysis` 检查检验选择、假设、effect size、置信区间和多重比较，不只报告 p-value，时间序列不得套独立样本检验；工程量使用 `uncertainty-and-units`。这些原子能力辅助审计，不替代本 Skill。
 
 需要重跑时，在现有授权范围内使用隔离输出目录，保留原产物；代价高或环境缺失时明确未验证，不能声称通过。对于不适用项说明原因。
 
@@ -27,3 +30,5 @@ description: Audit mathematical modeling results before paper handoff or when le
 - **BLOCKED**：泄漏、指标错误、关键数值冲突、无法复现或缺少关键证据使主结论不可信。列出解除阻断所需的最小修复与重验。
 
 附“已检查 / 未检查 / 不适用”范围、证据清单、问题优先级、可进入论文的数值和措辞限制。缺陷不能通过改口径、删负结果或手填数字解决。
+
+当 `competition_mode: true`，每项修复增加 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority` 和 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`；不为低收益重跑破坏已复现结果。

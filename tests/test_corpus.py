@@ -61,7 +61,7 @@ class CorpusTests(unittest.TestCase):
         self.assertEqual((retriever.parent / "../../corpus/derived").resolve(), DERIVED)
         for name in DERIVED_FILES:
             self.assertTrue((DERIVED / name).is_file())
-        for skill_name in ("modeling-reviewer", "final-paper-reviewer"):
+        for skill_name in ("modeling-reviewer", "gmcm-final-reviewer"):
             skill = ROOT / "skills" / skill_name / "SKILL.md"
             self.assertEqual((skill.parent / "../../corpus/derived").resolve(), DERIVED)
 
