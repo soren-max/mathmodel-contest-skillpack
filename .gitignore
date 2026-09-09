@@ -223,3 +223,7 @@ __marimo__/
 /PaperSpine/
 /.mathmodel-stack/
 /.test-workspaces/
+
+# Local paper-processing caches; only original derived analysis is versioned.
+/corpus/work/
+/corpus/extracted/

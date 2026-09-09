@@ -13,7 +13,7 @@ Supported:
 Goals: correct problem decomposition, justified model selection, reproducible computation,
 leakage-free validation, result consistency, paper-ready evidence, reviewer-oriented QA.
 
-这是工具链管理仓库：保存锁定版本、安装脚本、项目模板和五个原创流程 Skill，**不镜像或 vendor 第三方完整源码**。第三方从官方 GitHub 克隆至用户缓存，版权归原作者。本工具不保证获奖；最终建模和论文必须人工复核。
+这是工具链管理仓库：保存锁定版本、安装脚本、项目模板、优秀论文经验库和六个原创流程 Skill，**不镜像或 vendor 第三方完整源码**。第三方从官方 GitHub 克隆至用户缓存，版权归原作者。本工具不保证获奖；最终建模和论文必须人工复核。
 
 ## Quick Start
 
@@ -51,12 +51,12 @@ codex
 | MathModel Standard，10 Skills | `~/.local/share/mathmodel-stack/MathModel-Skill` | 仅由 mm-init 复制官方 Codex 包到 `<project>/.agents/skills/` |
 | scibox-figure、scibox-diagram | `~/.local/share/mathmodel-stack/sci-box` | `~/.codex/skills/` 下同名软链接 |
 | paper-spine | `~/.local/share/mathmodel-stack/PaperSpine` | `~/.codex/skills/paper-spine` 链接官方 `dist/codex/skills/paper-spine` |
-| 五个自定义 Skills | 本仓库 `skills/` | `~/.codex/skills/` 下同名软链接 |
+| 六个自定义 Skills | 本仓库 `skills/` | `~/.codex/skills/` 下同名软链接 |
 | mm-init | 本仓库 `bin/mm-init` | `~/.local/bin/mm-init` 软链接 |
 
 不要删除或移动安装后的本仓库和缓存，否则链接会失效。MathModel 不全局安装，不混装 Standard/Lite。检测到同名全局 MathModel 时会停止并提示人工处理。
 
-**Codex 路径兼容性：** 按本项目约定保留 `${CODEX_HOME:-~/.codex}/skills`。当前 [OpenAI 官方文档](https://developers.openai.com/codex/skills/) 列出的用户级发现目录为 `~/.agents/skills`，项目级为 `.agents/skills`，并支持目录软链接。不同版本对旧路径支持可能不同；安装后用 `/skills` 核对这 8 个全局 Skill。若当前版本不发现旧路径，可自行为这 8 个目录逐个添加 `~/.agents/skills/<name>` 软链接；先检查同名冲突，不要把整个 `.codex/skills` 再复制一遍。安装器会提示该兼容项，不修改 Codex settings，也不将“文件存在”当成实际路由已验证。
+**Codex 路径兼容性：** 按本项目约定保留 `${CODEX_HOME:-~/.codex}/skills`。当前 [OpenAI 官方文档](https://developers.openai.com/codex/skills/) 列出的用户级发现目录为 `~/.agents/skills`，项目级为 `.agents/skills`，并支持目录软链接。不同版本对旧路径支持可能不同；安装后用 `/skills` 核对这 9 个全局 Skill。若当前版本不发现旧路径，可自行为这 9 个目录逐个添加 `~/.agents/skills/<name>` 软链接；先检查同名冲突，不要把整个 `.codex/skills` 再复制一遍。安装器会提示该兼容项，不修改 Codex settings，也不将“文件存在”当成实际路由已验证。
 
 PaperSpine 官方安装器会写入多个宿主并替换已有目录，因此这里只链接其提交内已生成的 Codex 包，不执行全宿主安装，也不安装 `/paperspine` prompt；通过 `$paper-spine` 使用。许可证与具体路径见 [docs/third-party.md](docs/third-party.md)。
 
@@ -103,6 +103,7 @@ bash verify.sh
 | Skill | 交付物 |
 | --- | --- |
 | contest-project-bootstrap | 启动检查、材料缺口和团队安排 |
+| exemplar-paper-retriever | 按数学结构检索最多三篇历史案例及不可照搬项 |
 | modeling-reviewer | 每问数学路线、baseline、候选比较和 MVP |
 | result-auditor | PASS / PASS WITH LIMITATIONS / BLOCKED 的证据审计 |
 | paper-handoff | J/F → L 的统一逐问数学/结果交接 |
