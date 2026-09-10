@@ -76,6 +76,26 @@ class GmcmV09Tests(unittest.TestCase):
         for package in ("pyomo", "ortools", "pymoo", "pandera", "shap", "simpy", "statsmodels"):
             self.assertNotIn(f"pip install {package}", entrypoints.lower())
 
+    def test_paper_narrative_contract_is_wired_into_handoff_and_review(self):
+        contract = (ROOT / "rubrics/paper_narrative.md").read_text(encoding="utf-8")
+        handoff = (ROOT / "skills/paper-handoff/SKILL.md").read_text(encoding="utf-8")
+        reviewer = (ROOT / "skills/gmcm-final-reviewer/SKILL.md").read_text(encoding="utf-8")
+        workflow = (ROOT / "docs/workflow.md").read_text(encoding="utf-8")
+
+        for token in (
+            "Problem", "Mathematical abstraction", "Model selection reason",
+            "Numerical results", "Question conclusion", "Link to next question",
+            "Before equation", "After equation", "Purpose", "Observation",
+            "Interpretation", "Implication", "approved_for_paper: true",
+        ):
+            self.assertIn(token, contract)
+        self.assertIn("| Question | Problem | Method | Result | Status |", contract)
+        self.assertIn("Formula Context Ledger", handoff)
+        self.assertIn("Abstract-ready Problem–Method–Result", handoff)
+        self.assertIn("PAPER NARRATIVE", reviewer)
+        self.assertIn("Model–result–paper consistency", reviewer)
+        self.assertIn("PaperSpine integration", workflow)
+
     def test_no_raw_papers_or_extracted_text_tracked(self):
         result = subprocess.run(
             ["git", "-C", str(ROOT), "ls-files"], text=True,

@@ -22,6 +22,7 @@
 5. [CROSS-PAPER PATTERN] An optimization plot marks feasible bounds and the selected point.
 6. [CROSS-PAPER PATTERN] A stochastic plot includes repeated-run uncertainty, not one realization.
 7. [ANALYST INFERENCE] Remove a figure if its claim is already made more precisely by a table and it adds no mechanism, comparison or diagnostic.
+8. [ANALYST INFERENCE] For every core figure/table, the surrounding prose states Purpose, direct Observation, model/engineering Interpretation and decision/validation Implication; “results are shown in Fig. X” alone fails.
 
 ## Anti-Patterns
 

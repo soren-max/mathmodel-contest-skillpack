@@ -10,6 +10,7 @@ Mark each item **PASS**, **FAIL**, **NOT FOUND** or **NOT APPLICABLE**, with an 
 - [CROSS-PAPER PATTERN] Train/test separation respects patient, time, group and preprocessing boundaries; no leakage.
 - [CROSS-PAPER PATTERN] Reported optimum/schedule/layout passes an independent feasibility and objective replay.
 - [CROSS-PAPER PATTERN] Abstract, body, tables, figures and conclusion agree numerically.
+- [ANALYST INFERENCE] Every question in the abstract has Problem, Method and a concrete Result; missing any one blocks that question, and every key number is an approved registry metric.
 - [CROSS-PAPER PATTERN] Probability/causal/optimality claims have calibration, identification or certificates; otherwise wording is downgraded.
 - [CROSS-PAPER PATTERN] Mechanism equations have coherent units, frames, signs and limiting/invariant checks.
 
@@ -22,6 +23,9 @@ Mark each item **PASS**, **FAIL**, **NOT FOUND** or **NOT APPLICABLE**, with an 
 - [CROSS-PAPER PATTERN] Simulation/stochastic outputs have repeated seeds, moment/distribution checks and convergence.
 - [CROSS-PAPER PATTERN] Multi-question handoffs preserve units, schema and uncertainty.
 - [CROSS-PAPER PATTERN] Figures each support one necessary evidence claim with readable labels.
+- [ANALYST INFERENCE] Every core equation has a local reason before it and variable/meaning/downstream-use explanation after it.
+- [ANALYST INFERENCE] Every core figure/table states Purpose, Observation, Interpretation and Implication.
+- [ANALYST INFERENCE] Every question closes with answer, strongest verified result, conclusion, limitation and the artifact passed to the next question.
 - [CROSS-PAPER PATTERN] Decision recommendations state assumptions, trade-offs and practical limits.
 - [CROSS-PAPER PATTERN] Negative/weak results are reported without changing definitions or cherry-picking.
 
@@ -31,6 +35,7 @@ Mark each item **PASS**, **FAIL**, **NOT FOUND** or **NOT APPLICABLE**, with an 
 - [CROSS-PAPER PATTERN] Captions identify sample/scenario, metric and purpose.
 - [CROSS-PAPER PATTERN] Significant digits reflect input/model uncertainty.
 - [CROSS-PAPER PATTERN] Background and generic algorithm exposition do not crowd out formulation/evidence.
+- [ANALYST INFERENCE] Model selection answers why the model matches this problem; algorithm exposition does not become an encyclopedia or substitute for the choice rationale.
 - [CROSS-PAPER PATTERN] Limitations name observed weaknesses rather than generic future work.
 - [CROSS-PAPER PATTERN] Reproduction records code, data provenance, environment, seeds and generated artifact paths.
 

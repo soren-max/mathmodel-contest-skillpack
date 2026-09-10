@@ -113,7 +113,7 @@ bash verify.sh
 | repo-paper-auditor | 题目到 paper claim 的 Evidence Matrix |
 | question-completion-gate | BLOCKED / PARTIAL / MVP_CLOSED / CLOSED |
 | paper-handoff | J/F → L 的统一逐问数学/结果交接 |
-| gmcm-final-reviewer | 数学、实验、GMCM 三视角终审 |
+| gmcm-final-reviewer | 数学、实验、GMCM 竞赛叙事与证据一致性终审 |
 
 ## 文档与测试
 
