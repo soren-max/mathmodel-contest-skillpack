@@ -6,7 +6,7 @@
 
 遵循 [AGENTS.md](AGENTS.md)；目录职责见 [project/project-layout.md](project/project-layout.md)，工具链版本见 [notes/toolchain_versions.md](notes/toolchain_versions.md)。
 
-每一问优先达到 `MVP_CLOSED`：建模路线、可运行代码、真实结果、验证、图表、解释、限制和 handoff。数字只从 `results/paper_metrics.yaml` 批准；终稿使用 `$gmcm-final-reviewer`。
+每一问优先达到 `MVP_CLOSED`：建模路线、可运行代码、真实结果、验证、图表、解释、限制和 handoff。摘要逐问必须有 Problem、Method、Result；关键数字只从 `results/paper_metrics.yaml` 的批准条目取得。终稿使用 `$gmcm-final-reviewer`。
 
 计算环境由团队为本题建立，在 `project/` 记录 Python/求解器版本、依赖锁定、随机种子、数据校验和及重跑命令。此初始化工具不会安装 NumPy、绘图库、LaTeX、Word 渲染或求解器。
 

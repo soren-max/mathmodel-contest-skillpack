@@ -1,11 +1,11 @@
 ---
 name: gmcm-final-reviewer
-description: Perform the final GMCM/Huawei Cup review from mathematical, experimental, and competition perspectives. Use only for a near-final paper with evidence matrix, verified numbers, rendered output, and question handoffs.
+description: Perform the final GMCM/Huawei Cup review of mathematics, experiments, paper narrative, abstract coverage, and claim traceability. Use only for a near-final paper with evidence matrix, verified numbers, rendered output, and question handoffs.
 ---
 
 # GMCM final reviewer
 
-读取官方题目、已核实当年规则、`materials/gmcm.md`（缺失时回退到 SkillPack 的 `../../rubrics/gmcm.md`）、整合稿与渲染文件、`reports/evidence_matrix.md`、`results/paper_metrics.yaml`、逐问审计/handoff 和复现入口。未验证范围不能当通过，不凭语言流畅度替代证据。
+读取官方题目、已核实当年规则、`materials/gmcm.md`（缺失时回退到 SkillPack 的 `../../rubrics/gmcm.md`）、`../../rubrics/paper_narrative.md`、整合稿与渲染文件、`reports/evidence_matrix.md`、`results/paper_metrics.yaml`、逐问审计/handoff 和复现入口。未验证范围不能当通过，不凭语言流畅度替代证据。本轮内容审查不处理字体、字号、页边距、行距等排版细节。
 
 ## A. Mathematical Reviewer
 
@@ -17,10 +17,103 @@ description: Perform the final GMCM/Huawei Cup review from mathematical, experim
 
 ## C. GMCM Competition Reviewer
 
-检查逐问回答、数学深度、多问递进、真实创新、工程意义、图表证据、论文完整性、优缺点和限制。摘要背景控制在 1–2 句，每问包含 Problem / Method / Key Result；数字必须来自 `approved_for_paper: true`，正文没有的数字不得进入摘要。“效果良好、精度较高、显著改善”等没有对应指标/检验时标 OVERCLAIM。
+检查逐问回答、数学深度、多问递进、真实创新、工程意义、图表证据、论文完整性、优缺点和限制。创新不得由算法数量代替；模型复杂度必须由题目结构和证据收益支撑。
 
-读取 `../../corpus/derived/abstract_patterns.md`、`validation_patterns.md`、`figure_patterns.md`、`reviewer_checklist.md` 作为检查框架，不要求复刻历史论文。
+## D. PAPER NARRATIVE Reviewer
 
-输出 `reports/gmcm_final_review.md`，合并为 `CRITICAL / MAJOR / MINOR`。每项包含位置、证据、影响、最小修复和复验条件。`CRITICAL` 必修；只修高价值 `MAJOR`；`MINOR` 不得破坏稳定结果。
+将每一问视为一条完整论证链，而不是按关键词搜索。逐问检查：
+
+```text
+Problem
+→ Mathematical abstraction
+→ Assumptions / Variables
+→ Model formulation
+→ Model selection reason
+→ Solver / computation
+→ Numerical results
+→ Interpretation
+→ Validation
+→ Question conclusion
+→ Link to next question
+```
+
+必须明确判断并记录：
+
+- 是否像算法拼盘，模型之间是否由逐问产物和数学对象连接；
+- 模型介绍是否过长或百科化，是否挤压 formulation、result、validation；
+- 是否优先解释 “Why this model for this problem?”，并以结构、数据、机制、约束、输出需求或 baseline 支撑；
+- 每个核心公式是否都有 `Before equation / Equation / After equation`，其中后段含变量/单位、数学或工程意义与后续用途；
+- 结果是否只有数字而没有原因、含义、证据强度和决策影响；
+- 每个核心图表是否都有 `Purpose / Observation / Interpretation / Implication`，而非仅写“结果如图 X 所示”；
+- 每问是否以“回答、最重要结果、结论、限制、下一问接口”形成闭环；
+- 前后问题是否传递具体产物、schema、单位、适用域和不确定性，形成递进而非换算法；
+- 摘要是否只有模型名而没有每问的具体结果；
+- 总结是否综合总体答案、权衡、限制与工程价值，而非重复正文句子。
+
+模型介绍的长度按功能判断：若一段通用知识删去后不影响本题的 formulation、选择理由、求解复现或结果解释，则标记为百科式冗余并要求压缩，不以机械字数阈值代替判断。
+
+输出逐问叙事审查表：
+
+```markdown
+| Question | Problem & abstraction | Assumptions / variables | Formulation & selection reason | Solver | Result & interpretation | Validation | Conclusion & next link | Status |
+|---|---|---|---|---|---|---|---|---|
+```
+
+任一环节缺失时不得将该问标为 `PASS`；给出稿件位置、缺失证据和最小内容修复，不提出纯排版修改。
+
+## E. Abstract hard gate
+
+摘要背景保持极短。逐问建立且在报告中原样输出：
+
+```markdown
+| Question | Problem | Method | Result | Status |
+|---|---|---|---|---|
+```
+
+只有 `Problem / Method / Result` 三项全部存在、具体且与正文一致，该问才 `PASS`。Model 是 Method 的一部分，不机械拆成第四项；Meaning / Engineering Value 可增强 Result；Conclusion 可在末尾总体总结，不要求逐问标签。
+
+`Result` 必须给出可验证的数值、最优参数、误差、变化百分比、分类/排名/阈值或工程策略。只有“结果较好”“效果显著”“验证了模型有效性”等表述时按缺失处理。摘要所有关键数字逐个列出 `metric_id`，并核对 `results/paper_metrics.yaml` 的 `approved_for_paper: true`；未批准数字、正文没有的数字或口径冲突均为 `CRITICAL`，不能通过改写掩盖。
+
+紧接摘要硬门表输出数字来源表；没有数字时说明本问 Result 的具体非数值证据：
+
+```markdown
+| Question | Abstract number / result | Metric ID or evidence | approved_for_paper | Body/result location | Status |
+|---|---|---|---|---|---|
+```
+
+## F. Core equation and figure/table audit
+
+核心公式逐式输出：
+
+```markdown
+| Question | Equation | Before: relationship reason | Equation/notation check | After: variables/units + meaning + downstream use | Status |
+|---|---|---|---|---|---|
+```
+
+核心图表逐项输出：
+
+```markdown
+| Question | Figure/table | Purpose | Observation | Interpretation | Implication / claim boundary | Provenance | Status |
+|---|---|---|---|---|---|---|---|
+```
+
+核心对象不得抽样审查。若稿件没有明确编号，使用页码/段落或可重复定位的文字锚点。
+
+## G. Model–result–paper consistency
+
+对论文出现的每个模型名称、参数、样本数、评价指标、最优值、提升/降低百分比和显著性结论建立追溯表：
+
+```markdown
+| Claim / value | Type | Manuscript location | Code / config / derivation | Result artifact | Approved metric ID or Evidence Matrix row | Status |
+|---|---|---|---|---|---|---|
+```
+
+每项都必须到达真实 result 和 Evidence Matrix；模型名称/参数还必须到达代码/config 或数学推导，数值项还必须到达已批准 metric。任一必要链路缺失标 `NOT TRACEABLE`。求解器冒充模型、样本口径不一致、指标定义/分母漂移、无证书的“最优”和无检验的“显著”不得通过。
+
+读取 `../../corpus/derived/abstract_patterns.md`、`paper_structure_patterns.md`、`validation_patterns.md`、`figure_patterns.md`、`reviewer_checklist.md` 作为检查框架。优秀论文 corpus 只允许学习章节组织、数学叙事、结果解释、验证写法和摘要结构；禁止复制或近似改写原文表达，也禁止迁移其结果。
+
+输出 `reports/gmcm_final_review.md`，至少依次包含：总体 verdict、逐问摘要硬门表、逐问 PAPER NARRATIVE 表、核心公式语境审计、核心图表四要素审计、模型—结果—论文追溯表、`CRITICAL / MAJOR / MINOR` findings。每项 finding 包含位置、证据、影响、最小修复和复验条件。
+
+任何一问摘要硬门不通过、任何关键数字未批准/冲突、或核心结论不可追溯，均为 `CRITICAL`。PAPER NARRATIVE 缺环按对题目答案的影响定为 `CRITICAL` 或 `MAJOR`。只有全部摘要行和逐问叙事行 `PASS`、无未解决 `CRITICAL`，才可给出内容层面的提交建议；语言流畅不能抵消证据或叙事失败。`CRITICAL` 必修；只修高价值 `MAJOR`；`MINOR` 不得破坏稳定结果。
 
 当 `competition_mode: true`，再给 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority` 和 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`。最终模型、数值、引用、格式和提交均需三位 owner 人工复核；此技能不自动提交。

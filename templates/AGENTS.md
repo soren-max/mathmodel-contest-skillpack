@@ -38,6 +38,16 @@ Correctness first. Reproducibility. Mathematical interpretability. Paper-ready o
 
 J/F 在 `notes/handoff_qN.md` 交付经过审查的结果，L 不从代码中重新猜数。论文数字以 handoff 对应的真实产物为准。重大结果问题由 `result-auditor` 优先阻断；先解决证据问题，再润色。
 
+每一问正文遵循 Problem → Mathematical abstraction → Assumptions/Variables → Model formulation → Model selection reason → Solver/computation → Numerical results → Interpretation → Validation → Question conclusion → Link to next question。模型介绍优先回答为何适合本题，不写百科式算法说明。
+
+每个核心公式必须有建立关系的理由、公式本身、变量/单位与数学或工程意义及后续用途；每个核心图表必须有 Purpose、Observation、Interpretation、Implication。每问末尾写清答案、最重要结果、结论、限制和下一问接口。
+
+摘要逐问硬性包含 Problem、Method、Result，三项缺一不可；模型属于 Method。所有摘要关键数字必须来自 `approved_for_paper: true` 的 registry 条目。模型名称、参数、样本数、评价指标、最优值、变化百分比和显著性结论必须可追溯到 code/config/derivation、result、Evidence Matrix 及适用的批准 metric。
+
+优秀论文 corpus 仅学习章节组织、数学叙事、结果解释、验证写法和摘要结构，不复制或近似改写原文。
+
+如使用 PaperSpine，只把它作为已审计 GMCM 产物的下游写作整合器：handoff、Evidence Matrix 和批准 registry 仍是 source of truth，PaperSpine 不重新选模或重算数字，最终稿仍运行 `gmcm-final-reviewer`。
+
 `paper/` 保存整合稿。若上游工作流要求 `paper_output/` 或 `paper_rewriting_output/`，保留它们作为生成目录，在 `project/project-layout.md` 记录映射，避免多个“最终版”。不得伪造引用。
 
 ## Competition strategy

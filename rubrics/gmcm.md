@@ -64,8 +64,15 @@
 
 ## Paper Quality
 
-- 摘要是否逐问包含 Problem、Method、Key Result，核心数字是否来自批准的 registry。
+- 是否按 `paper_narrative.md` 形成逐问的 Problem → abstraction → formulation/selection → computation → result/interpretation → validation → conclusion → next-question 闭环。
+- 摘要是否逐问包含硬要求 Problem、Method、Result；只有三项全部存在才通过。Model 属于 Method，Meaning 可增强 Result，但不能代替具体结果。
+- 摘要所有关键数字是否逐项来自 `approved_for_paper: true` 的 registry 条目；“效果良好”等无具体结果的表述按 Result 缺失处理。
+- 核心公式是否具有建立理由、数学表达、变量/意义/后续用途三段语境，避免公式堆砌。
+- 核心图表是否具有 Purpose、Observation、Interpretation、Implication，避免只写“如图所示”。
 - 公式、变量、图表、正文、结论和 handoff 数值是否一致。
+- 模型名称、参数、样本数、评价指标、最优值、变化百分比和显著性结论是否可追溯到 code/config/derivation、result、Evidence Matrix 及适用的批准 metric。
 - 每张正文图是否有 Evidence Purpose：EDA / MECHANISM / MODEL / RESULT / VALIDATION / SENSITIVITY / OPTIMIZATION / DECISION。
 - 无法支持 claim 的图标记 `DECORATIVE_FIGURE` 并移除或降级。
+- 模型介绍是否优先回答 “Why this model for this problem?”；算法数量和百科式介绍不得代替数学叙事。
+- 优秀论文 corpus 是否只用于学习组织与论证方式，且没有复制或近似改写原文表达。
 - 限制、引用、复现说明、匿名/格式和 AI 使用披露是否满足已核实的当年规则。
