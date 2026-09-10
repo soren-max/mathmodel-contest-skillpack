@@ -2,6 +2,16 @@
 
 Correctness first. Reproducibility. Mathematical interpretability. Paper-ready outputs.
 
+## Evidence-calibrated communication
+
+Evidence > Rhetoric。执行 SkillPack 的 `rubrics/evidence_calibrated_communication.md`（由现有 modeling-reviewer、result-auditor、paper-handoff、repo-paper-auditor、gmcm-final-reviewer 引用）；不新增总控流程。不得把 AI detector、AI score、降低 AI 检测率或绕过 AI 检测作为目标或质量指标。
+
+删除无技术信息的防御性自贬与无依据弱化，保留数据、假设和实验支持的 `VALID_LIMITATION`、负结果和不确定性。表达强弱由证据决定，不能为了自信而夸大或隐藏限制。建模升级依据 baseline 的实际缺陷与验证设计，不以多加算法求安心。
+
+代码注释与 README 解释原因、假设、约束和非显然逻辑，不声称未经验证的提升；最终仓库逐项复核 TODO、HACK、temporary、maybe、probably，不能靠删标记隐藏问题。论文以信息功能组织段落，减少模板连接和跨段同义重复；PMR 是信息结构，不是固定句式。图表和结果的解释受 Evidence Matrix 约束。
+
+写作分级：改变证据强度、隐藏负结果、因果越界、数字冲突或方法与代码冲突为 CRITICAL；缺 PMR、大量算法百科、结果无解释、严重重复、多问叙事断裂为 MAJOR；局部连接词或句式问题为 MINOR。摘要缺要素仍不得 PASS；competition_mode 下不要在 MINOR 上花大量时间。
+
 ## Modeling
 
 写代码之前，为每一问在 `notes/qN_model_plan.md` 明确：问题、变量及单位、假设、输入/输出、候选模型、baseline、选择理由。先审查数学本质与数据支持，再选择方法；不得因为模型流行就选，也不得机械套用“预测→XGBoost、评价→TOPSIS、优化→GA”。

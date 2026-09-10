@@ -7,6 +7,8 @@ description: Review a mathematical modeling contest solution route before substa
 
 读取该问官方要求、已确认的数据字典、前后问接口和已有路线。不要将建议当作已完成的实验，不因缺少复杂方法否定可解释的简单方案。
 
+读取并执行 [Evidence-Calibrated Communication Policy](../../rubrics/evidence_calibrated_communication.md) 的证据边界、建模与代码表达规则；Evidence > Rhetoric。
+
 在 `notes/qN_model_plan.md` 按以下决策顺序回答：
 
 1. `What is the mathematical structure?`：估计、识别、预测、评价、决策、控制、优化或组合；定义状态、决策与数学对象。
@@ -19,6 +21,14 @@ description: Review a mathematical modeling contest solution route before substa
 输出至少包含：`Problem Type / Inputs / Outputs / State Variables / Decision Variables / Candidate Models / Baseline / Recommended MVP / Upgrade Condition / Failure Risks / Historical Analogues`。候选至少包含简单可解释路线；统计预测优先讨论 OLS、GLM、ARIMA 或其他可信 baseline，必要时使用 `statsmodels`，再考虑 RF/XGBoost/深度学习。复杂模型未可靠超越 baseline 时不得声称明显更优。
 
 不得机械套用“预测→XGBoost、评价→TOPSIS、优化→GA”，不得仅凭算法流行程度选择。若数据不支持复杂方案，先选能解释并验证的 MVP。
+
+## 防止防御性加模型
+
+模型升级按 `Baseline → observed deficiency → justified upgrade → validation` 说明。model plan 中记录 baseline 的实际缺陷及结果位置、新模型具体解决什么、数据能否支持增加复杂度、后续问题是否需要该模型输出，以及同口径比较设计和停止升级条件。尚未观察到的缺陷只能列为待检验假设，未运行的比较不能写成性能提升。
+
+没有明确模型比较设计时，不接受“为提高精度加入多个先进模型”“考虑到不足再加入模型 X”“为保证可靠同时采用 A/B/C/D”的理由；禁止 algorithm stacking for reassurance。模型比较本身可以是合理设计，但须有候选假设、评价口径与选择规则。
+
+说明优先回答为什么本题需要该模型，不堆通用算法知识；简单 baseline 没被可靠超越时，可以直接选择 baseline，并将负结果作为依据。删除空泛自我贬低，保留数据、假设和实验支持的限制。实现建议与注释解释 WHY、ASSUMPTION、CONSTRAINT 或非显然逻辑，不预写未经验证的优势。
 
 ## 可选 Historical Exemplar Check
 

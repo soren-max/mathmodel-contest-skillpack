@@ -7,6 +7,8 @@ description: Turn an audited GMCM question into a paper-ready mathematical narra
 
 先完整读取 `../../rubrics/paper_narrative.md`，再读取该问题意、路线、代码入口、实际结果、图表、`reports/evidence_matrix.md`、`results/paper_metrics.yaml` 和审计。目标是让论文负责人直接获得一条“问题 → 数学抽象 → 模型 → 结果 → 解释 → 验证 → 结论”的写作证据链，而不是算法说明书。
 
+同时读取 [Evidence-Calibrated Communication Policy](../../rubrics/evidence_calibrated_communication.md)，将证据允许的表达范围交给论文负责人；Evidence > Rhetoric。
+
 若审计为 `BLOCKED` 或关键证据缺失，可生成标明“草稿/不可用于论文”的交接清单，但不能放行关键数值或正式 claim。审计未做时先核验或建议调用可用的 `result-auditor`。不得用 handoff 自我证明结果。
 
 写入 `notes/handoff_qN.md`；已有版本保留修订依据，结果改变后同步更新。文件元数据标明题号、交付人、审查人、版本、审计状态、对应 run/config 和更新时间。论文负责人不应从代码重新猜测结果。
@@ -77,6 +79,8 @@ description: Turn an audited GMCM question into a paper-ready mathematical narra
 
 `Problem / Method / Result` 是摘要硬要求；模型包含在 `Method` 中，不另拆字段。`Result` 必须具体、可验证；只有泛化评价时标 `NOT READY`。摘要关键数字必须逐个关联 `approved_for_paper: true` 的 `metric_id`。Meaning / Engineering Value 可作为 Result 后增强，但不能代替 Result。
 
+PMR 是信息结构，不是句式模板；摘要可自然组织，不要求逐问使用“针对问题 X，本文首先……然后……最终……”。来源与状态列是审计元数据，不是新增摘要必备要素。
+
 ## Reproduction, traceability, and claims
 
 `Reproduction and Provenance` 提供从项目根目录执行的真实命令、输入版本/校验和、环境、种子、配置和输出位置。没有实际运行的命令标记为待运行。
@@ -84,6 +88,15 @@ description: Turn an audited GMCM question into a paper-ready mathematical narra
 为论文拟出现的模型名称、参数、样本数、评价指标、最优值、提升/降低百分比和显著性结论逐项建立 traceability ledger，至少列出：论文 claim、类型、code/config/derivation、result artifact、`metric_id`（数值项）、Evidence Matrix 行、允许措辞和状态。缺少任一必要链路时标 `NOT TRACEABLE`。
 
 所有数值只从 `results/paper_metrics.yaml` 中 `approved_for_paper: true` 的条目放行，不得另行抄 CSV 或临时重算后写入。`Exact Claims Allowed` 必须由当前 Evidence Matrix 支持；冲突、未批准数字、无检验的显著性、无证书的全局最优及越过相关/预测证据的措辞写入 `Claims NOT Allowed`。
+
+在 `Traceability and Claim Boundaries` 内交付以下表达范围表，逐 claim 定位，不另造数字来源：
+
+| Claim / Evidence Matrix row | Exact Claims Allowed | Claims NOT Allowed | VALID_LIMITATION to retain | Technical reason / consequence / possible remedy |
+|---|---|---|---|---|
+
+允许措辞保留指标、比较、方向、幅度、已验证的稳定性与适用域。真实限制按 `Scope → Technical reason → Consequence → Possible remedy` 组织，remedy 仅是条件性后续方案。负结果、弱关联及不确定性不能在交接时变成积极结论；无信息的自我贬低可删除。
+
+图表与结果解释均受 Evidence Matrix 约束；无法验证原因时，交付已支持的含义及机制未知的边界，不能为完成叙事编造原因。正文段落各有信息功能，算法背景仅保留本题所需；结论综合最终答案、关键数字和工程策略，避免机械复制摘要或验证过程。
 
 优秀论文 corpus 仅可学习章节组织、数学叙事、结果解释、验证写法和摘要结构；不得复制或近似改写原文。限制与审计要求原样传递给 L，末尾列出待决策问题及负责人。
 

@@ -124,6 +124,7 @@ bash verify.sh
 - [可选依赖](docs/optional-dependencies.md)
 - [比赛冻结](docs/competition-freeze.md)
 - [GMCM rubric](rubrics/gmcm.md)
+- [证据校准表达与防御性写作控制](rubrics/evidence_calibrated_communication.md)：Evidence > Rhetoric；五个现有 Skill 分阶段执行，保留真实局限和负结果，不以 AI 检测分数为目标。
 
 ```bash
 bash -n install.sh

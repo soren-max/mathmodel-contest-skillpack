@@ -7,6 +7,8 @@ description: Perform the final GMCM/Huawei Cup review of mathematics, experiment
 
 读取官方题目、已核实当年规则、`materials/gmcm.md`（缺失时回退到 SkillPack 的 `../../rubrics/gmcm.md`）、`../../rubrics/paper_narrative.md`、整合稿与渲染文件、`reports/evidence_matrix.md`、`results/paper_metrics.yaml`、逐问审计/handoff 和复现入口。未验证范围不能当通过，不凭语言流畅度替代证据。本轮内容审查不处理字体、字号、页边距、行距等排版细节。
 
+同时读取 [Evidence-Calibrated Communication Policy](../../rubrics/evidence_calibrated_communication.md)，执行表达分类、重复审查和分级；Evidence > Rhetoric，不能为语气更坚定而删真实限制或改变结论强度。
+
 ## A. Mathematical Reviewer
 
 检查问题抽象、状态/决策/参数、假设、公式与维度、边界/约束、模型递进、推导正确性和 solver 选择。
@@ -72,6 +74,8 @@ Problem
 
 只有 `Problem / Method / Result` 三项全部存在、具体且与正文一致，该问才 `PASS`。Model 是 Method 的一部分，不机械拆成第四项；Meaning / Engineering Value 可增强 Result；Conclusion 可在末尾总体总结，不要求逐问标签。
 
+三要素是信息结构而非固定句式，不要求每问“针对问题 X，本文首先……然后……最终……”。不要为去重复而删除某问必需的 Problem、Method 或 Result。
+
 `Result` 必须给出可验证的数值、最优参数、误差、变化百分比、分类/排名/阈值或工程策略。只有“结果较好”“效果显著”“验证了模型有效性”等表述时按缺失处理。摘要所有关键数字逐个列出 `metric_id`，并核对 `results/paper_metrics.yaml` 的 `approved_for_paper: true`；未批准数字、正文没有的数字或口径冲突均为 `CRITICAL`，不能通过改写掩盖。
 
 紧接摘要硬门表输出数字来源表；没有数字时说明本问 Result 的具体非数值证据：
@@ -112,8 +116,37 @@ Problem
 
 读取 `../../corpus/derived/abstract_patterns.md`、`paper_structure_patterns.md`、`validation_patterns.md`、`figure_patterns.md`、`reviewer_checklist.md` 作为检查框架。优秀论文 corpus 只允许学习章节组织、数学叙事、结果解释、验证写法和摘要结构；禁止复制或近似改写原文表达，也禁止迁移其结果。
 
-输出 `reports/gmcm_final_review.md`，至少依次包含：总体 verdict、逐问摘要硬门表、逐问 PAPER NARRATIVE 表、核心公式语境审计、核心图表四要素审计、模型—结果—论文追溯表、`CRITICAL / MAJOR / MINOR` findings。每项 finding 包含位置、证据、影响、最小修复和复验条件。
+## H. Evidence-calibrated communication review
 
-任何一问摘要硬门不通过、任何关键数字未批准/冲突、或核心结论不可追溯，均为 `CRITICAL`。PAPER NARRATIVE 缺环按对题目答案的影响定为 `CRITICAL` 或 `MAJOR`。只有全部摘要行和逐问叙事行 `PASS`、无未解决 `CRITICAL`，才可给出内容层面的提交建议；语言流畅不能抵消证据或叙事失败。`CRITICAL` 必修；只修高价值 `MAJOR`；`MINOR` 不得破坏稳定结果。
+按共享 Policy 逐项检查并给出证据位置：
 
-当 `competition_mode: true`，再给 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority` 和 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`。最终模型、数值、引用、格式和提交均需三位 owner 人工复核；此技能不自动提交。
+- `DEFENSIVE_WRITING`：无技术信息的自我贬低；
+- `TEMPLATE_WRITING`：机械连接词、连续相同句式、逐问流水账；有真实顺序的连接词可保留，不强制换词；
+- `REPETITIVE_CLAIM`：相同观点换词重复、同一优势多章重复、摘要/正文/结论复制、评价与结论重复、问题分析与建模重复、图前图后重复；
+- `ALGORITHM_ENCYCLOPEDIA`：通用算法介绍挤占本题数学模型和选择理由；
+- `EQUATION_WITHOUT_NARRATIVE`：核心公式没有前因、解释或实际后续用途；
+- `RESULT_WITHOUT_INTERPRETATION`：数字没有数学/工程含义或证据边界；
+- `FIGURE_WITHOUT_CLAIM`：核心图表缺 Purpose、Observation、Interpretation 或 Implication；
+- `UNJUSTIFIED_POSITIVE_LANGUAGE`：没有指标/比较/验证支持的优越、显著、稳定或因果语言；
+- `UNJUSTIFIED_HEDGING`：没有依据的弱化，必须与 `VALID_LIMITATION` 严格区分。
+
+每段至少承担 Problem、Reasoning、Definition、Model、Evidence、Interpretation、Transition、Conclusion 之一；无信息功能的常识、标题复述、赞美和百科内容应删减。按对象、条件、方向、幅度与推断范围归并 semantic claim，记录重复位置，优先保留证据更强、位置合理的一处，其余删除、压缩或改成新信息功能。摘要和结论为完整作答所需的简要重述可以保留。
+
+逐条核对谨慎表达的证据，单列必须保留的 `VALID_LIMITATION` 及其范围、技术原因、后果和条件性 remedy；不用 only、limited、weak、unstable、not significant 等词表自动判错。缺乏机制证据时保留“原因未验证”的边界和已有结果含义，不能为补解释发明原因。结论应给每问答案、关键数字、策略与总体工程意义，保留影响解释的限制，不复制摘要、算法流程或完整验证过程。
+
+输出表达审计与重复处理表：
+
+| Location(s) / semantic claim | Paragraph function | Finding or VALID_LIMITATION | Evidence anchor | Severity | Keep / compress / rewrite / delete and reason |
+|---|---|---|---|---|---|
+
+`VALID_LIMITATION` 不是 finding，Severity 为 `—`；证据充分的限制必须保留。未发现问题的类别可在已检查范围中注明，不能为凑类别制造问题。任何修订都复核与 Evidence Matrix、批准 registry、代码/config 和审计边界是否一致，不计算 AI detector 或 AI score。
+
+## Report and verdict
+
+输出 `reports/gmcm_final_review.md`，至少依次包含：总体 verdict、逐问摘要硬门表及数字来源表、逐问 PAPER NARRATIVE 表、核心公式语境审计、核心图表四要素审计、模型—结果—论文追溯表、表达审计与重复处理表、必须保留的 `VALID_LIMITATION`、`CRITICAL / MAJOR / MINOR` findings。每项 finding 包含位置、证据、影响、最小修复和复验条件。
+
+按影响分级：改变证据强度、隐藏负结果、因果过度声明、数字与结果冲突、方法与代码冲突，以及关键数字未批准或核心结论不可追溯，均为 `CRITICAL`；单纯缺一问 Problem/Method/Result、大量算法百科、结果无解释、严重重复或多问叙事断裂是 `MAJOR`；机械连接词、个别句式重复、局部生硬措辞是 `MINOR`。叙事或表达问题若同时改变证据，相关项升为 `CRITICAL`。
+
+等级不替代硬门状态：摘要缺 PMR 为 `MAJOR` 仍不得 PASS。只有全部摘要行和逐问叙事行 `PASS`、无未解决 `CRITICAL`，才可给出内容层面的提交建议；语言流畅不能抵消证据或叙事失败。`CRITICAL` 必修；优先影响作答和解释的 `MAJOR`；`MINOR` 不得破坏稳定结果。
+
+当 `competition_mode: true`，再给 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority` 和 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`。不要在 MINOR 上花大量时间；缺摘要要素等硬门问题不能因分级为 MAJOR 而忽略。最终模型、数值、引用、格式和提交均需三位 owner 人工复核；此技能不自动提交。
