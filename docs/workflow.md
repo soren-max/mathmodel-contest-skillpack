@@ -22,9 +22,17 @@ contest-project-bootstrap
 
 MathModel Standard 继续提供项目级原子工作能力，sci-box 负责图，PaperSpine 只在论文整合确有收益时使用。本仓库不引入另一套数学建模 orchestrator。比赛推进单位是 `each question → MVP_CLOSED → next question → later improvement`。
 
+## Evidence-calibrated communication
+
+五个现有 Skill 共同执行 [Evidence-Calibrated Communication Policy](../rubrics/evidence_calibrated_communication.md)，总原则为 **Evidence > Rhetoric**。modeling-reviewer 防止防御性加模型；result-auditor 校准结果强弱；paper-handoff 交付允许表达和必须保留的限制；repo-paper-auditor 核对 claim 与证据及代码/README 表达；gmcm-final-reviewer 检查叙事、重复和最终表达。
+
+删减模板表达、空泛自我削弱和重复观点，不得隐藏负结果、删除真实局限或提高证据强度。AI detector、AI score、降低 AI 检测率或绕过 AI 检测均不得作为目标或质量指标。终审将 `UNJUSTIFIED_HEDGING` 与应保留的 `VALID_LIMITATION` 分开记录；摘要缺 Problem/Method/Result 为 MAJOR，仍不通过硬门。competition_mode 优先证据和作答缺口，不在 MINOR 措辞上花大量时间。
+
 ## 论文内容契约与 PaperSpine integration
 
 `paper-handoff` 和 `gmcm-final-reviewer` 共同执行 `rubrics/paper_narrative.md`。PaperSpine 是可选的下游写作/整合器，不重新选模、不重新计算数字，也不替代 GMCM 证据关卡；其通用 contribution/motivation 逻辑不能覆盖逐问 Problem–Method–Result 和数学叙事要求。
+
+下游写作与改写同时接收 communication Policy 和 handoff 中的允许表达/禁止表达/必须保留的限制；三要素是信息结构，不强制句式。润色不能覆盖 Evidence Matrix 的推断范围。
 
 当使用 PaperSpine 且 `scene=competition` 时，在 drafting/rewrite 前把当前 GMCM 产物映射到它已有的产物，不新增 stage 或 orchestrator：
 
