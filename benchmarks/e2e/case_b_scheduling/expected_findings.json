@@ -1,0 +1,80 @@
+{
+  "case": "case_b_scheduling",
+  "synthetic": true,
+  "evaluation": "human-in-the-loop; expected findings are labels, not automatic reasoning scores",
+  "findings": [
+    {
+      "id": "B1",
+      "severity": "CRITICAL",
+      "category": "HARD_CONSTRAINT_VIOLATION",
+      "anchor": {
+        "path": "results/feasibility.json",
+        "quote": "\"single_machine_feasible\": false"
+      },
+      "required_reasoning": "A, B, C overlap on one machine; schedule is infeasible and must be BLOCKED.",
+      "supporting_files": [
+        "problem.md",
+        "results/schedule.json",
+        "src/check_feasibility.py"
+      ]
+    },
+    {
+      "id": "B2",
+      "severity": "MAJOR",
+      "category": "SOLVER_MODEL_CONFUSION",
+      "anchor": {
+        "path": "paper/draft.md",
+        "quote": "The genetic algorithm is the mathematical model"
+      },
+      "required_reasoning": "An algorithm name does not specify decision variables, objective and constraint equations.",
+      "supporting_files": [
+        "problem.md"
+      ]
+    },
+    {
+      "id": "B3",
+      "severity": "CRITICAL",
+      "category": "UNSUPPORTED_GLOBAL_OPTIMUM",
+      "anchor": {
+        "path": "paper/draft.md",
+        "quote": "Global optimality is"
+      },
+      "required_reasoning": "A heuristic run with no certificate/gap cannot prove global optimality, and the candidate is infeasible.",
+      "supporting_files": [
+        "results/schedule.json"
+      ]
+    },
+    {
+      "id": "B4",
+      "severity": "CRITICAL",
+      "category": "METHOD_MISMATCH",
+      "anchor": {
+        "path": "src/schedule.py",
+        "quote": "method='greedy_release_dispatch'"
+      },
+      "required_reasoning": "Paper claims a genetic algorithm (100 population, 200 generations); code dispatches jobs greedily at release.",
+      "supporting_files": [
+        "paper/draft.md"
+      ]
+    },
+    {
+      "id": "B5",
+      "severity": "CRITICAL",
+      "category": "OBJECTIVE_MISMATCH",
+      "anchor": {
+        "path": "src/schedule.py",
+        "quote": "objective=0.5 * tardiness + 0.5 * makespan"
+      },
+      "required_reasoning": "Weighted sum differs from requested and claimed lexicographic objective; equivalence is not proved.",
+      "supporting_files": [
+        "problem.md",
+        "paper/draft.md"
+      ]
+    }
+  ],
+  "false_positive_guards": [
+    "Do not invent unobserved numerical instability, data deletion or fabricated citations.",
+    "Do not flag synthetic data as misconduct; it is explicitly labeled.",
+    "A single root cause should not be inflated into multiple false critical findings."
+  ]
+}

@@ -13,3 +13,10 @@
 MathModel Skill 是本项目 `.agents/skills/` 内的官方包副本，版权与来源见 `.agents/third-party/MathModel-Skill/LICENSE` 和 `.agents/mathmodel-source.json`。其他全局工具仍随机器缓存；比赛期间不要运行工具链更新。
 
 请团队自行决定原始题目、数据、第三方技能副本和论文是否可进入远程仓库，不要提交密钥或受限材料。
+
+现场用 `mm doctor` 检查环境，`mm status` 看逐问状态，`mm next` 获取一个下一步。
+`mm gate q1` 是产物预检；最终闭环由 `$question-completion-gate` 审查。
+配置和最小产物字段见 [project/project-layout.md](project/project-layout.md)。
+`mm refresh` 从真实产物重建 navigation cache；手改 cache 不能批准结果。
+提交前完成终审、refresh、正常 Git 保存，再运行 `mm final-check` 并由 J/F/L 人工核验。
+每 4–6 小时同步一次状态、阻断、下一依赖、数字变化与论文同步需求。

@@ -1,0 +1,29 @@
+{
+  "method": "greedy_release_dispatch",
+  "schedule": [
+    {
+      "job": "A",
+      "start": 0,
+      "finish": 3,
+      "tardiness": 0
+    },
+    {
+      "job": "B",
+      "start": 0,
+      "finish": 2,
+      "tardiness": 0
+    },
+    {
+      "job": "C",
+      "start": 0,
+      "finish": 2,
+      "tardiness": 0
+    }
+  ],
+  "makespan": 3,
+  "total_tardiness": 0,
+  "objective": 1.5,
+  "objective_definition": "0.5 * total_tardiness + 0.5 * makespan",
+  "solver_status": "HEURISTIC_CANDIDATE",
+  "optimality_gap": null
+}

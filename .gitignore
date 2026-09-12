@@ -227,3 +227,5 @@ __marimo__/
 # Local paper-processing caches; only original derived analysis is versioned.
 /corpus/work/
 /corpus/extracted/
+
+/corpus/raw/

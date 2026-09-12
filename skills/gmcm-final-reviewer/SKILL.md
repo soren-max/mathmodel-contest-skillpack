@@ -9,6 +9,31 @@ description: Perform the final GMCM/Huawei Cup review of mathematics, experiment
 
 同时读取 [Evidence-Calibrated Communication Policy](../../rubrics/evidence_calibrated_communication.md)，执行表达分类、重复审查和分级；Evidence > Rhetoric，不能为语气更坚定而删真实限制或改变结论强度。
 
+## Review mode：默认 FULL
+
+`review_mode: full` 是默认，保留下面 A–H 的所有检查与完整报告。
+只有 `competition_mode: true` **且用户明确要求快速终审**，才使用 `review_mode: fast`。
+临近截止本身不构成切换许可；不额外询问已明确要求 FAST 的用户。
+
+FAST 仅检查这十项：每问是否回答；摘要 PMR；approved paper metrics；method/code consistency；
+critical evidence matrix rows；leakage；hard constraints；optimization feasibility；
+major causal overclaim；final conclusions vs results。
+仅报告 CRITICAL 和 high-value MAJOR（包括缺逐问答案、缺摘要 PMR 等硬门失败），忽略普通 MINOR、
+句式微调与不影响结果的轻微重复。不为填满 FULL 表格扩展 FAST 范围。
+
+FAST 报告保留：模式与明确请求依据、已检查/未检查范围、总体 verdict、逐问回答和摘要 PMR/数字来源表、
+上述证据检查结果、需保留的真实限制、CRITICAL/高价值 MAJOR 的位置/影响/最小修复/复验条件。
+不得把未检查范围写成通过，不声称完成 FULL 审查。FAST 与 FULL 使用相同证据门槛、数字批准、
+泄漏/可行性/因果边界；摘要 PMR 缺失仍不得 PASS。
+FULL 的全部逐问叙事行通过要求用于 FULL 的完整内容建议；FAST 只能给明确限定于十项的 verdict，
+不能借模式省略当前检查范围内的硬门或宣称叙事全面通过。
+
+终审输出仍为 `reports/gmcm_final_review.md`。开头用独立字段记录 `review_mode: full` 或 `fast`、
+`verdict: PASS / PASS WITH LIMITATIONS / PARTIAL / BLOCKED` 中的一个实际 verdict，
+以及从 `mm final-check --json` 取得、经本次阅读核对的 `artifact_sha256: <实际指纹>`。
+没有 mm 时照常审查，明确未绑定机器指纹；不能为了预检绿灯签发 PASS。
+任何论文/结果变动后重新核验，不直接复制旧 hash。机器字段不替代下面报告正文。
+
 ## A. Mathematical Reviewer
 
 检查问题抽象、状态/决策/参数、假设、公式与维度、边界/约束、模型递进、推导正确性和 solver 选择。
@@ -143,7 +168,7 @@ Problem
 
 ## Report and verdict
 
-输出 `reports/gmcm_final_review.md`，至少依次包含：总体 verdict、逐问摘要硬门表及数字来源表、逐问 PAPER NARRATIVE 表、核心公式语境审计、核心图表四要素审计、模型—结果—论文追溯表、表达审计与重复处理表、必须保留的 `VALID_LIMITATION`、`CRITICAL / MAJOR / MINOR` findings。每项 finding 包含位置、证据、影响、最小修复和复验条件。
+FULL 输出 `reports/gmcm_final_review.md`，至少依次包含（FAST 使用上方限定报告）：总体 verdict、逐问摘要硬门表及数字来源表、逐问 PAPER NARRATIVE 表、核心公式语境审计、核心图表四要素审计、模型—结果—论文追溯表、表达审计与重复处理表、必须保留的 `VALID_LIMITATION`、`CRITICAL / MAJOR / MINOR` findings。每项 finding 包含位置、证据、影响、最小修复和复验条件。
 
 按影响分级：改变证据强度、隐藏负结果、因果过度声明、数字与结果冲突、方法与代码冲突，以及关键数字未批准或核心结论不可追溯，均为 `CRITICAL`；单纯缺一问 Problem/Method/Result、大量算法百科、结果无解释、严重重复或多问叙事断裂是 `MAJOR`；机械连接词、个别句式重复、局部生硬措辞是 `MINOR`。叙事或表达问题若同时改变证据，相关项升为 `CRITICAL`。
 

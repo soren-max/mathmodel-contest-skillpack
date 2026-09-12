@@ -1,0 +1,21 @@
+{
+  "mae": 0.0,
+  "baseline_mae": 1.6666666666666667,
+  "model_origins": [
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "baseline_origins": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "model": "next_sensor_value",
+  "n_test": 5
+}

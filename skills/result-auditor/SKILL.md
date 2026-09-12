@@ -42,3 +42,7 @@ description: Audit mathematical modeling results before paper handoff or when le
 按共享 Policy 区分 `DEFENSIVE_WRITING / UNJUSTIFIED_HEDGING / VALID_LIMITATION`。将有证据的方向不稳定、未优于 baseline、不能识别因果及无法证明全局最优等标为 `VALID_LIMITATION`，附技术原因与影响，原样传递给 handoff。删除这些边界、隐藏负结果或夸大证据强度均是 `CRITICAL`，不是语言优化。
 
 当 `competition_mode: true`，每项修复增加 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority` 和 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`；不为低收益重跑破坏已复现结果。
+
+供 mm 预检时，在报告开头增加独立 `verdict: PASS` / `PASS WITH LIMITATIONS` / `BLOCKED` 中的实际状态；
+将实际验证位置写入 `reports/qN_validation.md`，独立行 `verdict: PASS` 与 `evidence: <项目内验证结果路径>` 仅在验证通过时填写。
+保留验证方法、范围和结果正文；机器标记不能代替真实验证，也不要为 CLI 绿灯补假证据。

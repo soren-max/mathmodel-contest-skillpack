@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small stdlib-only implementation shared by the four Bash entry points."""
+"""Small stdlib-only implementation shared by the installation Bash entry points."""
 import argparse
 import contextlib
 import datetime as dt
@@ -144,7 +144,7 @@ class Stack:
         for source in self.sources[1:]:
             pairs.extend((self.skills / name, self.repo(source) / source['skills_path'] /
                           (name if len(source['skills']) > 1 else '')) for name in source['skills'])
-        pairs.append((self.bindir / 'mm-init', ROOT / 'bin/mm-init'))
+        pairs.extend((self.bindir / name, ROOT / 'bin' / name) for name in ('mm-init', 'mm'))
         return pairs
 
     def check_links(self, targets=False):
@@ -220,7 +220,7 @@ class Stack:
         for destination, source in self.links():
             check(str(destination), lambda d=destination, s=source: require(
                 d.is_symlink() and d.resolve() == s.resolve() and
-                ((d / 'SKILL.md').is_file() if d.name != 'mm-init' else os.access(d, os.X_OK)),
+                ((d / 'SKILL.md').is_file() if d.name not in {'mm-init', 'mm'} else os.access(d, os.X_OK)),
                 f'Missing, incorrect, or broken installation: {d}'))
         check('No global MathModel routing conflict', self.duplicates)
         path_dirs = {Path(p).expanduser().resolve() for p in os.get_exec_path() if p}
@@ -273,7 +273,7 @@ class Stack:
         paths = self.source_skills(self.sources[0])
         for relative in (*LAYOUT, 'AGENTS.md', 'README.md', 'project/project-layout.md',
                          'materials/gmcm.md', 'materials/gmcm_year_override.md',
-                         'results/paper_metrics.yaml',
+                         'results/paper_metrics.yaml', 'project/contest_state.json',
                          'notes/toolchain_versions.md', '.agents/mathmodel-source.json',
                          '.agents/third-party/MathModel-Skill/LICENSE'):
             safe_child(project, relative)
@@ -317,6 +317,8 @@ class Stack:
                   (ROOT / 'rubrics/gmcm_year_override.md').read_text())
         write_new(project / 'results/paper_metrics.yaml',
                   (ROOT / 'templates/paper_metrics.yaml').read_text())
+        write_new(project / 'project/contest_state.json',
+                  (ROOT / 'templates/contest_state.json').read_text())
         own_commit = git(ROOT, 'rev-parse', 'HEAD')
         dirty = bool(git(ROOT, 'status', '--porcelain'))
         content = '# Toolchain versions\n\nInitialized (UTC): ' + dt.datetime.now(dt.timezone.utc).isoformat() + '\n\n'

@@ -14,3 +14,6 @@ description: Audit raw and processed data contracts before GMCM modeling. Use af
 状态使用 `PASS / UNVERIFIED / CONFLICT / DEFINITION_RISK / UNIT_CONFLICT / DIMENSION_RISK / ORDER_OF_MAGNITUDE_RISK`。键、目标、时间顺序、单位或不可逆数据丢失影响主结论时标为阻断。
 
 当 `competition_mode: true`，每个建议增加 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority`，并只给 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`。优先高收益、低风险、30 分钟内修复。
+
+供 mm 导航时，在报告开头增加独立 `verdict: PASS` 或实际未通过状态；仅当数据契约已核验且无阻断时填 PASS。
+该机器字段不替代逐项契约、失败样例和模型可用范围。

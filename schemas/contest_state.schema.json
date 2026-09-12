@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GMCM navigation cache, never an evidence authority",
+  "type": "object",
+  "required": ["schema_version", "competition", "competition_mode", "questions"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "competition": {"const": "GMCM"},
+    "competition_mode": {"type": "boolean"},
+    "questions": {
+      "type": "object",
+      "propertyNames": {"pattern": "^q[1-9][0-9]*$"},
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "precheck", "checks", "artifacts", "review_verdict", "review_fresh", "artifact_sha256", "core_ready"],
+        "additionalProperties": false,
+        "properties": {
+          "status": {"enum": ["NOT_STARTED", "PARTIAL", "MVP_READY", "MVP_CLOSED", "CLOSED", "BLOCKED"]},
+          "precheck": {"enum": ["PRECHECK_BLOCKED", "PRECHECK_PARTIAL", "PRECHECK_MVP_READY", "PRECHECK_CLOSED_READY"]},
+          "checks": {"type": "object", "additionalProperties": {"type": "string"}},
+          "artifacts": {"type": "object", "additionalProperties": {"type": "string"}},
+          "review_verdict": {"type": "string"},
+          "review_fresh": {"type": "boolean"},
+          "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "core_ready": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

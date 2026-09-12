@@ -1,0 +1,28 @@
+name: Deterministic checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Bash syntax
+        run: |
+          bash -n install.sh
+          bash -n update.sh
+          bash -n verify.sh
+          bash -n bin/mm-init
+          bash -n bin/mm
+      - name: Offline tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Deterministic smoke benchmarks
+        run: python3 benchmarks/run_benchmarks.py
+      - name: Whitespace
+        run: git diff --check
