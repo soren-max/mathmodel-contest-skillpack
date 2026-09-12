@@ -1,6 +1,6 @@
 # GMCM Competition Freeze
 
-版本：**GMCM-first v0.9**。
+版本：**GMCM-first v0.95**。
 
 正式比赛开始后冻结 SkillPack、`config/sources.lock`、第三方缓存、orchestrator、项目模板和基础计算环境：
 

@@ -81,3 +81,23 @@ J 不长期承担普通数据清洗、普通绘图或格式排版；F 与 L 对�
 `main` 加短期 feature branches；小步提交、PR、交叉 review 后合并。禁止自动 force push、`reset --hard` 用户项目、修改全局 Git config 或 Codex settings。不得保存 API key 或读取 secrets。
 
 官方赛题放 `problem_files/`，官方规则与模板放 `materials/`。先核对当届赛区的匿名、格式、附件及 AI 使用/披露要求并记录来源。清理误带的内部路径、Prompt、Agent 日志；不得删除官方要求的 AI 使用披露来隐藏实际使用。最终模型和论文必须人工复核。
+
+## GMCM Skill Routing Authority
+
+重叠时优先：题目解析 → MathModel problem-doc-model-selector；路线 → modeling-reviewer；
+代码/实验 → MathModel model-code-and-result-generator；数据 → data-contract-auditor；
+结果 → result-auditor；数字批准 → verified-number-registry；优化结构 → structured-optimization；
+完成度 → question-completion-gate；仓库/论文一致性 → repo-paper-auditor；
+交接 → paper-handoff；图表 → scibox-figure/scibox-diagram；写作 → MathModel paper-formal-writer；
+终审 → gmcm-final-reviewer。完整矩阵在安装源 SkillPack 的 docs/skill-routing.md。
+
+唯一 workflow：bootstrap → data-contract-auditor → modeling-reviewer → optional exemplar-paper-retriever
+→ model/code → result-auditor → verified-number-registry → question-completion-gate
+→ repo-paper-auditor → paper-handoff → paper → PaperSpine if useful → gmcm-final-reviewer。
+bootstrap 指 contest-project-bootstrap。初次 gate 可报 PARTIAL，补交接后复验同一关卡。
+
+MathModel quality-assurance-auditor 不替代 result-auditor / repo-paper-auditor；
+MathModel paper-workflow-orchestrator 不替代上述唯一 workflow。
+PaperSpine 不重选模型、不重算数字、不覆盖 Evidence Matrix。
+`mm` 仅预检/导航，不能授予 MVP_CLOSED/CLOSED；依据真实报告，不能信手工 cache 状态。
+遵循上文 J/F/L ownership 与 Complete first → Validate → Improve；每 4–6 小时同步状态、阻断、下一依赖、数字变更、论文同步。

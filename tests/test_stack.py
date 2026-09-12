@@ -38,7 +38,8 @@ class StackTests(unittest.TestCase):
         self.env.update(MM_STACK_HOME=str(self.base / 'cache'),
                         MM_CODEX_HOME=str(self.base / 'codex'),
                         MM_BIN_DIR=str(self.base / 'bin'),
-                        GIT_TERMINAL_PROMPT='0')
+                        GIT_TERMINAL_PROMPT='0', HOME=str(self.base / 'home'),
+                        GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1')
         self.env['PATH'] = str(self.base / 'bin') + os.pathsep + self.env['PATH']
         self.lock = json.loads((self.pack / 'config/sources.lock').read_text())
         self.env['GIT_CONFIG_COUNT'] = str(len(self.lock['sources']) + 1)
@@ -79,6 +80,8 @@ class StackTests(unittest.TestCase):
         self.assertIn('0 failure(s)', self.command('verify.sh'))
         project = self.base / 'Contest with spaces'
         self.command('bin/mm-init', project)
+        self.assertTrue((self.base / 'bin/mm').is_symlink())
+        state = (project / 'project/contest_state.json').read_bytes()
         notes = (project / 'notes/toolchain_versions.md').read_bytes()
         (project / 'AGENTS.md').write_text('Keep my instructions\n')
         (project / 'README.md').write_text('Keep my README\n')
@@ -86,6 +89,7 @@ class StackTests(unittest.TestCase):
         self.assertEqual((project / 'AGENTS.md').read_text(), 'Keep my instructions\n')
         self.assertEqual((project / 'README.md').read_text(), 'Keep my README\n')
         self.assertEqual(notes, (project / 'notes/toolchain_versions.md').read_bytes())
+        self.assertEqual(state, (project / 'project/contest_state.json').read_bytes())
         self.assertEqual(len(list((project / '.agents/skills').glob('*/SKILL.md'))), 10)
         self.assertTrue((project / 'materials/gmcm.md').is_file())
         self.assertIn('verified: false', (project / 'materials/gmcm_year_override.md').read_text())

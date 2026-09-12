@@ -66,3 +66,27 @@ MathModel Standard 继续提供项目级原子工作能力，sci-box 负责图�
 原始数据 → 处理代码 → 实验配置/种子 → 结果 → registry → 图表 → Evidence Matrix → handoff → 正文/摘要，每一环必须可定位。BLOCKED 主结论不可写成正式结果；负 R²、弱关系和失败实验保留并解释。
 
 上游目录与模板不同时，在 `project/project-layout.md` 记录实际映射和唯一提交稿。比赛开始后按 [competition-freeze.md](competition-freeze.md) 冻结流程。
+
+## 执行状态机（导航层）
+
+```mermaid
+flowchart TD
+  N[NOT_STARTED] --> P[PLAN_READY]
+  P --> R[RUN_READY]
+  R --> A[AUDITED]
+  A --> M[MVP_READY]
+  M --> G[MVP_CLOSED]
+  G --> C[CLOSED]
+  A --> B[BLOCKED]
+  B --> R
+  G -->|产物改变，需复审| M
+  C -->|产物改变，需复审| M
+```
+
+PLAN_READY / RUN_READY / AUDITED 是 readiness 里程碑，对外 question status 归为 PARTIAL；
+MVP_READY 表示产物齐备，MVP_CLOSED/CLOSED 必须有匹配当前产物指纹的 question-completion-gate verdict。
+BLOCKED 不可通过手改缓存解除。初次 gate 可记录 PARTIAL 和下游缺口，按原顺序完成 repo-paper-auditor、handoff 后复验同一关卡。
+
+`mm` 只是控制/导航层，不创建第二套流程。`mm status` 从产物推导，`mm next` 给一个下一步，
+`mm gate` 只做 deterministic precheck，`mm refresh` 只更新 navigation cache。
+[Source-of-truth 与机器字段](execution-cli.md)、[Routing Matrix](skill-routing.md)、[72h Runbook](gmcm-72h-runbook.md)。

@@ -38,3 +38,7 @@ Evidence Strength 只用 `STRONG / MODERATE / WEAK / NONE`；Status 只用 `PASS
 表达类别与现有 Evidence Matrix `Status` 分开记录，不扩展或混淆证据状态枚举。`VALID_LIMITATION` 的 Severity 写 `—`，不当缺陷计数。终审负责跨段重复和整体叙事，本审计负责修订不得越过证据边界。
 
 当 `competition_mode: true`，每个问题增加 `estimated_fix_time`、`expected_score_gain`、`risk`、`priority`，并分类 `FIX_NOW / FIX_IF_TIME / DO_NOT_TOUCH`。优先高收益、低风险、30 分钟内修复；审计不自动重构模型。
+
+供 mm 预检时，矩阵 Question 使用 qN。未解决问题可附 `Question / Finding / Severity / Resolution` 表；
+CRITICAL 未解除写 OPEN，修复且复验后才写 RESOLVED/FIXED；全局问题用 all。保留证据位置，
+不把自然语言里出现 CRITICAL 一词当作机器已正确识别的保证。

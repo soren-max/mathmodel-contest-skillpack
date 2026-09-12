@@ -1,0 +1,65 @@
+{
+  "case": "case_a_engineering",
+  "synthetic": true,
+  "evaluation": "human-in-the-loop; expected findings are labels, not automatic reasoning scores",
+  "findings": [
+    {
+      "id": "A1",
+      "severity": "CRITICAL",
+      "category": "TEMPORAL_LEAKAGE",
+      "anchor": {
+        "path": "src/forecast.py",
+        "quote": "features = [loads[t + 1]"
+      },
+      "required_reasoning": "At origin t, the predictor reads its future target at t+1; held-out error is not deployable.",
+      "supporting_files": [
+        "problem.md",
+        "results/predictions.csv"
+      ]
+    },
+    {
+      "id": "A2",
+      "severity": "CRITICAL",
+      "category": "NUMERIC_CONFLICT",
+      "anchor": {
+        "path": "paper/draft.md",
+        "quote": "MAE is 0.25"
+      },
+      "required_reasoning": "Abstract reports 0.25 kW while actual result and body report 0.0 kW.",
+      "supporting_files": [
+        "results/metrics.json"
+      ]
+    },
+    {
+      "id": "A3",
+      "severity": "CRITICAL",
+      "category": "CAUSAL_OVERCLAIM",
+      "anchor": {
+        "path": "paper/draft.md",
+        "quote": "temperature causes"
+      },
+      "required_reasoning": "Observational forecasting without identification cannot establish a temperature intervention effect.",
+      "supporting_files": [
+        "problem.md"
+      ]
+    },
+    {
+      "id": "A4",
+      "severity": "MAJOR",
+      "category": "WEAK_BASELINE_COMPARISON",
+      "anchor": {
+        "path": "src/forecast.py",
+        "quote": "for t in train_origins) / len(train_origins)"
+      },
+      "required_reasoning": "Baseline MAE uses training origins 0–5 but model MAE uses test origins 6–10; superiority comparison is not matched.",
+      "supporting_files": [
+        "results/metrics.json"
+      ]
+    }
+  ],
+  "false_positive_guards": [
+    "Do not invent unobserved numerical instability, data deletion or fabricated citations.",
+    "Do not flag synthetic data as misconduct; it is explicitly labeled.",
+    "A single root cause should not be inflated into multiple false critical findings."
+  ]
+}

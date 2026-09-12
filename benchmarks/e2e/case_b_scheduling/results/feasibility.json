@@ -1,0 +1,17 @@
+{
+  "single_machine_feasible": false,
+  "overlapping_pairs": [
+    [
+      "A",
+      "B"
+    ],
+    [
+      "A",
+      "C"
+    ],
+    [
+      "B",
+      "C"
+    ]
+  ]
+}

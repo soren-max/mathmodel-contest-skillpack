@@ -1,13 +1,13 @@
 # MathModel Contest SkillPack
 
-**Version: GMCM-first v0.9**
+**Version: GMCM-first v0.95**
 
 Current primary target:
 
 - China Postgraduate Mathematical Contest in Modeling
 - GMCM / Huawei Cup / 中国研究生数学建模竞赛
 
-CUMCM、MCM、ICM 等以后适配；v0.9 不以通用性为目标。
+CUMCM、MCM、ICM 等以后适配；v0.95 不以通用性为目标。
 
 Goals: correct problem decomposition, justified model selection, reproducible computation,
 leakage-free validation, structured optimization, evidence consistency, paper-ready outputs,
@@ -53,7 +53,7 @@ codex
 | paper-spine | `~/.local/share/mathmodel-stack/PaperSpine` | `~/.codex/skills/paper-spine` 链接官方 `dist/codex/skills/paper-spine` |
 | 4 个 K-Dense 原子 Skills | `~/.local/share/mathmodel-stack/scientific-agent-skills` | 只链接 scientific-critical-thinking、statistical-analysis、statsmodels、uncertainty-and-units |
 | 11 个自定义 Skills | 本仓库 `skills/` | `~/.codex/skills/` 下同名软链接 |
-| mm-init | 本仓库 `bin/mm-init` | `~/.local/bin/mm-init` 软链接 |
+| mm-init / mm | 本仓库 `bin/` | `~/.local/bin/mm-init` / `mm` 软链接 |
 
 不要删除或移动安装后的本仓库和缓存，否则链接会失效。MathModel 不全局安装，不混装 Standard/Lite。检测到同名全局 MathModel 时会停止并提示人工处理。
 
@@ -84,9 +84,9 @@ bash verify.sh
 
 ## 命令行为与配置
 
-- `install.sh`：依赖与冲突检查、官方 clone/fetch、固定提交 checkout、全局链接、mm-init 链接，最后执行与 `verify.sh` 相同的检查。
+- `install.sh`：依赖与冲突检查、官方 clone/fetch、固定提交 checkout、全局链接、mm-init / mm 链接，最后执行与 `verify.sh` 相同的检查。
 - `verify.sh`：只读检查，输出 PASS / WARN / FAIL；FAIL 返回非零，PATH/CLI/发现路径提示为 WARN。不会修改环境。
-- `mm-init <directory>`：独立 Git 项目、12 组工作目录、10 个项目级 MathModel Skill、GMCM rubric、年度规则空白覆盖、数字 registry、许可证、来源 JSON 和版本记录。已有父仓库内的子目录会被拒绝。
+- `mm-init <directory>`：独立 Git 项目、12 组工作目录、10 个项目级 MathModel Skill、GMCM rubric、年度规则空白覆盖、数字 registry、许可证、来源 JSON、contest_state 导航缓存和版本记录。已有父仓库内的子目录会被拒绝。
 - install/update/init 共享操作锁，避免并行修改缓存。Git 网络操作设有超时，失败后先检查保留下来的目录再重试。
 
 可选环境变量（同一安装的各命令保持一致）：
@@ -131,8 +131,36 @@ bash -n install.sh
 bash -n update.sh
 bash -n verify.sh
 bash -n bin/mm-init
+bash -n bin/mm
 python3 -m unittest discover -s tests -v
+python3 benchmarks/run_benchmarks.py
 git diff --check
 ```
 
 集成测试使用临时目录和本地 Git 上游，覆盖锁定安装、幂等、冲突保护、版本更新/回退、已有比赛冻结、路径隔离与版本记录，不修改真实比赛或用户配置。
+
+## v0.95 比赛执行层
+
+执行层已加入；尚未完成一次真实旧题全流程演练，**不宣称 v1.0 实战验证完成**。
+保留 11 个 Skill、8 篇 Core Corpus 与唯一 workflow；不增加建模能力、数据库或 orchestrator。
+
+```bash
+mm doctor
+mm status
+mm next
+mm gate q1
+mm refresh
+mm final-check
+```
+
+`mm status --refresh` 可同时刷新缓存；各命令支持 `--json`，项目路径可用 `mm --project <dir> status`。
+STATE_DRIFT 表示 cache 与真实产物不一致，refresh 不能替代 gate/终审复验。
+提交前只会给 READY FOR HUMAN FINAL REVIEW 或 NOT READY，提交须人工确认。
+终审默认 FULL；competition_mode 且用户明确要求时可 FAST，证据门槛相同。
+
+- [CLI、状态、Source of Truth 与产物字段](docs/execution-cli.md)
+- [Skill Routing Matrix](docs/skill-routing.md)
+- [72h 现场 Runbook / J-F-L / Freeze](docs/gmcm-72h-runbook.md)
+- [E2E fixtures 与人工评估](benchmarks/e2e/README.md)
+- [v1 Readiness](docs/v1-readiness.md) / [真实旧题演练模板](docs/rehearsal-template.md)
+- [GitHub Actions CI](.github/workflows/ci.yml)：离线确定性回归，不调用 Codex、不更新锁。
